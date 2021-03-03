@@ -1,0 +1,46 @@
+{% extends 'back.base.html.twig' %}
+
+
+{% block body %}
+<div style="width:800px; margin:0 auto;">
+
+
+        <title>Astuce index</title>
+
+
+        <h1>Astuce index</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>image</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for astuce in astuces %}
+                <tr>
+                    <td>{{ astuce.id }}</td>
+                    <td>{{ astuce.titre }}</td>
+                    <td>{{ astuce.description }}</td>
+                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }}" width="300" height="300"></td>
+                    <td>
+                        <a href="{{ path('astuce_show', {'id': astuce.id}) }}">show</a>
+                        <a href="{{ path('astuce_edit', {'id': astuce.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('astuce_new') }}">Create new</a>
+    <a href="{{ path('astuce_new') }}">edit</a>
+    </div>
+    {% endblock %}

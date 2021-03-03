@@ -1,0 +1,13 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+<div style="width:800px; margin:0 auto;">
+    <title>Edit Astuce</title>
+    <h1>Edit Astuce</h1>
+
+    {{ include('astuce/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('backastuce') }}">back to list</a>
+
+    {{ include('astuce/_delete_form.html.twig') }}
+</div>
+{% endblock %}
