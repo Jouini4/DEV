@@ -1,0 +1,113 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Commande</h2>
+                    <div class="breadcrumb__option">
+                        <a href="./index.html">Acceuil</a>
+                        <span>Commande</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+            </div>
+        </div>
+        <div class="checkout__form">
+            <h4>Détails du Client</h4>
+            <form action="#">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Prénom<span>*</span></p>
+                                    <input type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Nom<span>*</span></p>
+                                    <input type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>L'Adresse<span>*</span></p>
+                            <input type="text" placeholder="Rue" class="checkout__input__add">
+                            <input type="text" placeholder="Appartement,Maison,...">
+                        </div>
+                        <div class="checkout__input">
+                            <p>Gouvernorat<span>*</span></p>
+                            <input type="text">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>Code Postal<span>*</span></p>
+                            <input type="text">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Numéro de téléphone<span>*</span></p>
+                                    <input type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Adresse mail<span>*</span></p>
+                                    <input type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>Votre Commande</h4>
+                            <div class="checkout__order__products">Products <span>Total</span></div>
+                            <ul>
+                                <li><span>$75.99</span></li>
+                                <li><span>$151.99</span></li>
+                                <li><span>$53.99</span></li>
+                            </ul>
+                            <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>
+                            <div class="checkout__order__total">Total <span>$750.99</span></div>
+                            <div class="checkout__input__checkbox">
+
+                            </div>
+
+                            <div class="checkout__input__checkbox">
+                                <label for="payment">
+                                    Procéder vers le paiement
+                                    <input type="checkbox" id="payment">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="checkout__input__checkbox">
+
+                            </div>
+                            <button type="submit" class="site-btn">Payez</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+
+{% endblock %}
