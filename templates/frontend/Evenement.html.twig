@@ -1,0 +1,52 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2 style="color:#9cfda4" ;>ÉVÉNEMENT</h2>
+                        <div class="breadcrumb__option">
+                            <h2 style="color:#9cfda4" ;> &  </h2>
+                            <h2 style="color:#9cfda4" ;>  RÉSERVATION </h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+<div class="col-lg-8 col-md-7">
+    <table border="1"width="50%">
+
+
+        <tr>
+            <th>nom</th>
+            <th>description</th>
+            <th>lieu</th>
+            <th>date</th>
+            <th>prix</th>
+            <th>nbr place</th>
+
+        </tr>
+
+        {% for i in evenements %}
+            <tr>
+                <td>{{ i.nom_event }}</td>
+                <td>{{ i.description_event }}</td>
+                <td>{{ i.lieu_event }}</td>
+                <td>{{ i.date | date('d/m/y') }}</td>
+                <td>{{ i.prix_event }}</td>
+                <td>{{ i.nbr_place }}</td>
+
+            </tr>
+
+
+        {% endfor %}
+
+    </table>
+</div>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+<table border="1"width="50%">
+
+    <tr>
+        <th>nom</th>
+        <th>description</th>
+        <th>lieu</th>
+        <th>date</th>
+        <th>prix</th>
+        <th>nbr place</th>
+        <th> suppression</th>
+        <th> modification</th>
+    </tr>
+
+    {% for i in evenement %}
+        <tr>
+            <td>{{ i.nom_event }}</td>
+            <td>{{ i.description_event }}</td>
+            <td>{{ i.lieu_event }}</td>
+            <td>{{ i.date | date('d/m/y') }}</td>
+            <td>{{ i.prix_event }}</td>
+            <td>{{ i.nbr_place }}</td>
+            <td><a href="{{path("delete",{'id':i.id})}}">supprimer</a>
+            </td>
+             <td><a href="{{path("update",{'id':i.id})}}">modifier</a>
+            </td>
+
+        </tr>
+
+
+    {% endfor %}
+    <td><a href="{{path("create")}}">Ajouter</a>
+</table>
+{% endblock %}
