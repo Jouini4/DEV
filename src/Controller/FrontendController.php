@@ -27,6 +27,16 @@ class FrontendController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/reservation", name="reservation")
+     */
+    public function Reservation(): Response
+    {
+        return $this->render('frontend/Reservation.html.twig', [
+
+        ]);
+    }
     /**
      * @Route("/astuceproduit", name="astuceproduit")
      */
@@ -103,7 +113,7 @@ class FrontendController extends AbstractController
     /**
      * @Route("/reclamation", name="reclamation")
      */
-    public function reservation(): Response
+    public function Reclamation(): Response
     {
         return $this->render('frontend/Reclamation.html.twig', [
 

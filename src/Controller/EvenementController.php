@@ -6,9 +6,16 @@ use App\Entity\Evenement;
 use App\Form\EvenementType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\HttpFoundation\File\File;
+
+
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EvenementController extends AbstractController
 {
@@ -34,8 +41,15 @@ class EvenementController extends AbstractController
         //le formulaire traite la requete reçue
 
         //if les données reçues sont valides alors on va faire persist
-        if(($form->isSubmitted())&&($form->isValid()))
-        {$em=$this->getDoctrine()->getManager();
+        if(($form->isSubmitted())&&($form->isValid())){
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('image')->getData();
+        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $file->move($this->getParameter('images_directory'),$fileName);
+        $evenement->setImage($fileName);
+        $em=$this->getDoctrine()->getManager();
             $em->persist($evenement); //l'ajout dans la base
             ////persist joue le role de insert into
             $em->flush();
@@ -92,9 +106,9 @@ class EvenementController extends AbstractController
      */
     public function update(Request $request,$id)
     {//1ere etape : chercher l'objet à modifier
-        $classroom =$this->getDoctrine()
+        $evenement =$this->getDoctrine()
             ->getRepository(Evenement::class)->find($id);
-        $form = $this->createForm(EvenementType::class, $classroom);
+        $form = $this->createForm(EvenementType::class, $evenement);
         $form-> add('modifier',SubmitType::class,['label'=>'modifier']);
         //ona créé notre formulaire et on lui a passé en argument notre objet
         $form->handleRequest($request);
@@ -102,6 +116,13 @@ class EvenementController extends AbstractController
 
         //if les données reçues sont valides alors on va faire persiste
         if (($form->isSubmitted()) && ($form->isValid())) {
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('images_directory'),$fileName);
+            $evenement->setImage($fileName);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('read');

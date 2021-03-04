@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+
+
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
@@ -46,6 +51,13 @@ class Evenement
      * @ORM\Column(type="integer")
      */
     public $nbr_place;
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Il faut importer une image")
+     * @Assert\Image()
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function getId(): ?int
     {
@@ -122,5 +134,21 @@ class Evenement
         $this->nbr_place = $nbr_place;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage(): ?string
+    {
+        return $this -> image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage(string $image): void
+    {
+        $this -> image = $image;
     }
 }
