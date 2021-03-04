@@ -16,15 +16,6 @@ class Livraison
      * @ORM\Column(type="integer")
      */
     private $Numero;
-    /**
-     * @ORM\Column(type="string", length=255,nullable=true)
-     */
-    private $Nom_livreur;
-
-    /**
-     * @ORM\Column(type="string", length=255,nullable=true )
-     */
-    private $Numero_telephone_livreur;
 
     /**
      * @ORM\OneToOne(targetEntity=Commande::class, cascade={"persist", "remove"})
@@ -39,29 +30,6 @@ class Livraison
         return $this->id;
     }
 
-    public function getNomLivreur(): ?string
-    {
-        return $this->Nom_livreur;
-    }
-
-    public function setNomLivreur(string $Nom_livreur): self
-    {
-        $this->Nom_livreur = $Nom_livreur;
-
-        return $this;
-    }
-
-    public function getNumeroTelephoneLivreur(): ?string
-    {
-        return $this->Numero_telephone_livreur;
-    }
-
-    public function setNumeroTelephoneLivreur(string $Numero_telephone_livreur): self
-    {
-        $this->Numero_telephone_livreur = $Numero_telephone_livreur;
-
-        return $this;
-    }
 
     public function getCommande(): ?Commande
     {

@@ -1,3 +1,56 @@
 {% extends 'back.base.html.twig' %}
 {% block body %}
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Adresse e-mail</th>
+                    <th>Adresse</th>
+                    <th>Description Adresse</th>
+                    <th>Gouvernorat</th>
+                    <th>Code Postal</th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for commande in commandes %}
+                    <tr>
+                        <td>{{ commande.client.nom }}</td>
+                        <td>{{ commande.client.prenom }}</td>
+                        <td>{{ commande.numeroTelephone }}</td>
+                        <td>{{ commande.client.email }}</td>
+                        <td>{{ commande.Adresse }}</td>
+                        <td>{{ commande.descriptionAdresse }}</td>
+                        <td>{{ commande.gouvernorat }}</td>
+                        <td>{{ commande.codePostal }}</td>
+                        <td>
+                            <div class="card bg-primary text-white mb-4">
+
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="{{ path('backmodifiercommande',{'REF': commande.REF}) }}">Modifier</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+
+                            <div class="card text-white mb-2">
+                                <div class="card bg-danger text-white mb">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ path('backsupprimercommande',{'REF': commande.REF}) }}">Supprimer</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

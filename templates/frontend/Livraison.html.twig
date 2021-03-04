@@ -1,0 +1,20 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+<center><div class="col-4 justify-content-md-center col-lg-6 col-md-6 checkout__form" style="background-color: lightgrey">
+<h4>Détail de la Livraison</h4>
+    <p>Nom et Prenom : {{ client.nom ~" "~client.prenom }}</p>
+    <p>Numero de téléphone : {{ commande.numeroTelephone }}</p>
+    <p>Adresse de livraison :{{ commande.adresse }}</p>
+    <p>Description d'adresse :{{ commande.descriptionAdresse }}</p>
+    <p>Vous pouvez modifier votre livraison sous 24h en envoyant un mail ou en nous appelant</p>
+</div>
+    {{  form_start(form) }}
+    {{ form_row(form.paiement,{'attr': {'class': 'site-btn' } }) }}
+
+    {{  form_end(form) }}
+    {# <form method="post" action="{{ path('livraison') }}">
+        <button type="submit" class="site-btn">Payez</button>
+    </form> #}
+</center>
+{% endblock %}
+

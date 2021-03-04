@@ -22,7 +22,7 @@ class Commande
     /**
      * @ORM\Column(type="float")
      */
-    private $Prix_Total;
+    private $prixTotal;
 
 
     /**
@@ -33,27 +33,27 @@ class Commande
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Adresse;
+    private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $Description_Adresse;
+    private $descriptionAdresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Gouvernorat;
+    private $gouvernorat;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $code_postal;
+    private $codePostal;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $numero_telephone;
+    private $numeroTelephone;
 
 
 
@@ -71,12 +71,12 @@ class Commande
 
     public function getPrixTotal(): ?float
     {
-        return $this->Prix_Total;
+        return $this->prixTotal;
     }
 
-    public function setPrixTotal(float $Prix_Total): self
+    public function setPrixTotal(float $Prixtotal): self
     {
-        $this->Prix_Total = $Prix_Total;
+        $this->prixTotal = $Prixtotal;
 
         return $this;
     }
@@ -95,60 +95,60 @@ class Commande
 
     public function getAdresse(): ?string
     {
-        return $this->Adresse;
+        return $this->adresse;
     }
 
-    public function setAdresse(string $Adresse): self
+    public function setAdresse(string $adresse): self
     {
-        $this->Adresse = $Adresse;
+        $this->adresse = $adresse;
 
         return $this;
     }
 
     public function getDescriptionAdresse(): ?string
     {
-        return $this->Description_Adresse;
+        return $this->descriptionAdresse;
     }
 
-    public function setDescriptionAdresse(?string $Description_Adresse): self
+    public function setDescriptionAdresse(?string $descriptionadresse): self
     {
-        $this->Description_Adresse = $Description_Adresse;
+        $this->descriptionAdresse = $descriptionadresse;
 
         return $this;
     }
 
     public function getGouvernorat(): ?string
     {
-        return $this->Gouvernorat;
+        return $this->gouvernorat;
     }
 
-    public function setGouvernorat(string $Gouvernorat): self
+    public function setGouvernorat(string $gouvernorat): self
     {
-        $this->Gouvernorat = $Gouvernorat;
+        $this->gouvernorat = $gouvernorat;
 
         return $this;
     }
 
     public function getCodePostal(): ?int
     {
-        return $this->code_postal;
+        return $this->codePostal;
     }
 
-    public function setCodePostal(int $code_postal): self
+    public function setCodePostal(int $codepostal): self
     {
-        $this->code_postal = $code_postal;
+        $this->codePostal = $codepostal;
 
         return $this;
     }
 
     public function getNumeroTelephone(): ?int
     {
-        return $this->numero_telephone;
+        return $this->numeroTelephone;
     }
 
-    public function setNumeroTelephone(int $Numero_telephone): self
+    public function setNumeroTelephone(int $numerotelephone): self
     {
-        $this->numero_telephone = $Numero_telephone;
+        $this->numeroTelephone = $numerotelephone;
 
         return $this;
     }

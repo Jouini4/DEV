@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="checkout__form">
-                <h4>Détails du Client</h4>
-
+                <h4>Détails de la Commande</h4>
+                <div id="error"></div>
                 {{ form_start(form) }}
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
@@ -55,21 +55,21 @@
                             {{ form_row(form.description_adresse,{'attr': {'class': 'form-control'}}) }}
                         </div>
                         <div class="checkout__input">
-
+                                {# input autocomplete #}
                             {{ form_row(form.gouvernorat,{'attr': {'class': 'form-control','value':client.gouvernorat}}) }}
 
                         </div>
 
                         <div class="checkout__input">
 
-                            {{ form_row(form.code_postal,{'attr': {'class': 'form-control','value':client.code_postal}}) }}
+                            {{ form_row(form.code_postal,{'attr': {'class': 'form-group form-control','value':client.codePostal,'onkeypress':'return event.charCode >= 48 && event.charCode <= 57','maxlength':'4','minlength':'4'}}) }}
 
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
 
-                                    {{ form_row(form.numero_telephone,{'attr': {'class': 'form-control','value':client.numero_telephone}}) }}
+                                    {{ form_row(form.numero_telephone,{'attr': {'class': 'form-control','value':client.numeroTelephone,'onkeypress':'return event.charCode >= 48 && event.charCode <= 57','maxlength':'8','minlength':'8'}}) }}
 
                                 </div>
                             </div>

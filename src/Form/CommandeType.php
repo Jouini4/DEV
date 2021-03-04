@@ -19,9 +19,13 @@ class CommandeType extends AbstractType
             ->add('adresse',TextType::class)
             ->add('description_adresse',TextType::class)
             ->add('gouvernorat',TextType::class)
-            ->add('code_postal',TextType::class)
+            ->add('code_postal',NumberType::class,[
+
+            ])
             ->add('numero_telephone',NumberType::class)
-            ->add('Payez',SubmitType::class)
+            ->add('Payez',SubmitType::class,[
+                'label'=>'Procédez vers les détails de la livraison'
+            ])
 
         ;
     }

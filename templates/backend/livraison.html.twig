@@ -1,3 +1,45 @@
 {% extends 'back.base.html.twig' %}
 {% block body %}
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Adresse e-mail</th>
+                    <th>Adresse</th>
+                    <th>Description Adresse</th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                    <tbody>
+                   {% for livraison in livraisons %}
+                    <tr>
+                        <td>{{ livraison.commande.client.nom }}</td>
+                        <td>{{ livraison.commande.client.prenom }}</td>
+                        <td>{{ livraison.commande.numeroTelephone }}</td>
+                        <td>{{ livraison.commande.client.email }}</td>
+                        <td>{{ livraison.commande.Adresse }}</td>
+                        <td>{{ livraison.commande.descriptionAdresse }}</td>
+                        <td>
+
+                            <div class="card text-white mb-2">
+                                <div class="card bg-danger text-white mb">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ path('backsupprimerlivraison',{'Numero': livraison.Numero}) }}">Supprimer</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

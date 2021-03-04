@@ -52,12 +52,12 @@ class Client
     /**
      * @ORM\Column(type="integer", length=8)
      */
-    private $numero_telephone;
+    private $numeroTelephone;
 
     /**
      * @ORM\Column(type="integer", length=4)
      */
-    private $code_postal;
+    private $codePostal;
 
     /**
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client")
@@ -146,26 +146,26 @@ class Client
         return $this;
     }
 
-    public function getnumero_telephone(): ?int
+    public function getNumeroTelephone(): ?int
     {
-        return $this->numero_telephone;
+        return $this->numeroTelephone;
     }
 
-    public function setnumero_telephone(int $numero_telephone): self
+    public function setNumeroTelephone(int $numero_telephone): self
     {
-        $this->numero_telephone = $numero_telephone;
+        $this->numeroTelephone = $numero_telephone;
 
         return $this;
     }
 
-    public function getcode_postal(): ?int
+    public function getCodePostal(): ?int
     {
-        return $this->code_postal;
+        return $this->codePostal;
     }
 
-    public function setcode_postal(int $code_postal): self
+    public function setCodePostal(int $code_postal): self
     {
-        $this->code_postal = $code_postal;
+        $this->codePostal = $code_postal;
 
         return $this;
     }

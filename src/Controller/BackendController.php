@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use App\Entity\Commande;
+use App\Entity\Livraison;
+use App\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -59,9 +64,57 @@ class BackendController extends AbstractController
      */
     public function commande(): Response
     {
+        $em=$this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Commande::class)->findAll();
         return $this->render('backend/commande.html.twig', [
+            'commandes'=>$commandes
 
         ]);
+    }
+    /**
+     * @Route("/back/modifiercommande/{REF}", name="backmodifiercommande")
+     */
+    public function Modifiercommande(Request $request,$REF): Response
+    {
+        // dump($request);
+        $form = $this->createForm(CommandeType::class);
+        $form= $form->handleRequest($request);
+        $em=$this->getDoctrine()->getManager();
+        $commande=$em->getRepository(Commande::class)->find($REF);
+
+
+        $client = $em->getRepository(Client::class)->find($commande->getClient()->getId());
+        if ($form->isSubmitted())
+        {
+            dump($request);
+            $commande->setAdresse($request->request->get('commande')['adresse']);
+            $commande->setDescriptionAdresse($request->request->get('commande')['description_adresse']);
+            $commande->setGouvernorat($request->request->get('commande')['gouvernorat']);
+            $commande->setCodePostal($request->request->get('commande')['code_postal']);
+            $commande->setNumeroTelephone((int)$request->request->get('commande')['numero_telephone']);
+
+
+            $em->flush();
+            return $this->redirectToRoute('backcommande');
+
+        }
+        return $this->render('backend/modifiercommande.html.twig', [
+            'form'=>$form->createView(),
+            'commande'=>$commande
+
+        ]);
+    }
+    /**
+     * @Route("/back/supprimercommande/{REF}", name="backsupprimercommande")
+     */
+    public function Supprimercommande($REF): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commande=$em->getRepository(Commande::class)->find($REF);
+        $em->remove($commande);
+        $em->flush();
+
+        return $this->redirectToRoute('backcommande');
     }
     /**
      * @Route("/back/evenement", name="backevenement")
@@ -78,9 +131,27 @@ class BackendController extends AbstractController
      */
     public function livraison(): Response
     {
-        return $this->render('backend/livraison.html.twig', [
+        $em=$this->getDoctrine()->getManager();
+        $livraisons = $em->getRepository(Livraison::class)->findAll();
+        //dump($livraisons[0]->getCommande()->getClient()->getNom());
 
+        return $this->render('backend/livraison.html.twig', [
+            'livraisons'=>$livraisons
         ]);
+    }
+
+
+    /**
+     * @Route("/back/supprimerlivraison/{Numero}", name="backsupprimerlivraison")
+     */
+    public function Supprimerlivraison($Numero): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $livraison=$em->getRepository(Livraison::class)->find($Numero);
+        $em->remove($livraison);
+        $em->flush();
+
+        return $this->redirectToRoute('backlivraison');
     }
 
     /**

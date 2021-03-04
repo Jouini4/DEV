@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Entity\Commande;
+use App\Entity\Livraison;
 use App\Form\CommandeType;
+use App\Form\LivraisonType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,6 +130,15 @@ class FrontendController extends AbstractController
         ]);
     }
     /**
+     * @Route("/paiement", name="paiement")
+     */
+    public function Paiemenet(): Response
+    {
+        return $this->render('frontend/Paiement.html.twig', [
+
+        ]);
+    }
+    /**
      * @Route("/panier", name="panier")
      */
     public function Panier(): Response
@@ -157,9 +168,42 @@ class FrontendController extends AbstractController
     /**
      * @Route("/reclamation", name="reclamation")
      */
-    public function reservation(): Response
+    public function Reclamation(): Response
     {
         return $this->render('frontend/Reclamation.html.twig', [
+
+        ]);
+    }
+    /**
+     * @Route("/livraison", name="livraison")
+     */
+    public function Livraison(Request $request): Response
+    {
+        $form = $this->createForm(LivraisonType::class);
+        $form= $form->handleRequest($request);
+        $em=$this->getDoctrine()->getManager();
+        $client = $em->getRepository(Client::class)->find(1);
+        $commande = $em->getRepository(Commande::class)->findBy([
+            'client'=>$client->getId()
+        ],[
+            'REF'=>'desc'
+        ]);
+
+        $livraison = new Livraison();
+
+        if($form->isSubmitted()) {
+            $livraison->setCommande($commande[0]);
+            $em->persist($livraison);
+            $em->flush();
+            return $this->redirectToRoute('paiement');
+        }
+
+
+
+        return $this->render('frontend/Livraison.html.twig', [
+            'form'=>$form->createView(),
+            'client'=>$client,
+            'commande'=>$commande[0],
 
         ]);
     }
