@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\AstuceRepository;
+use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -117,10 +118,10 @@ class BackendController extends AbstractController
     /**
      * @Route("/back/video", name="backvideo")
      */
-    public function video(): Response
+    public function video(VideoRepository $videoRepository): Response
     {
         return $this->render('backend/video.html.twig', [
-
+            'videos' => $videoRepository->findAll(),
         ]);
     }
 
