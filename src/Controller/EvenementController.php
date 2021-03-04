@@ -35,7 +35,7 @@ class EvenementController extends AbstractController
     {
         $evenement= new Evenement();
         $form=$this->createForm(EvenementType::class,$evenement);
-        $form-> add('ajouter',SubmitType::class,['label'=>'créer']);
+        $form-> add('ajouter',SubmitType::class,['label'=>'créer','attr'=>array('class'=>'btn btn-primary mt-3'),]);
         //on a créé notre formulaire et on lui a passé en argument notre objet
         $form->handleRequest($request);
         //le formulaire traite la requete reçue

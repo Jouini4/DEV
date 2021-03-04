@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
  */
@@ -24,16 +25,19 @@ class Evenement
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message ="le nom de l'event est obligatoire")
      */
     public $nom_event;
 
     /**
      * @ORM\Column(type="string", length=255)
+      * @Assert\NotBlank (message ="la description de l'event est obligatoire")
      */
     public $description_event;
 
     /**
      * @ORM\Column(type="string", length=255)
+      * @Assert\NotBlank (message ="le lieu de l'event est obligatoire")
      */
     public $lieu_event;
 
@@ -44,11 +48,13 @@ class Evenement
 
     /**
      * @ORM\Column(type="float")
+      * @Assert\NotBlank (message ="le prix de l'event est obligatoire")
      */
     public $prix_event;
 
     /**
      * @ORM\Column(type="integer")
+      * @Assert\NotBlank (message ="le nombre de place de l'event est obligatoire")
      */
     public $nbr_place;
     /**

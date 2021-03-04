@@ -19,7 +19,8 @@ class EvenementType extends AbstractType
             ->add('date')
             ->add('prix_event')
             ->add('nbr_place')
-            ->add('image',FileType::class,array('label'=>'inserer une image','data_class' => null));
+            ->add('image',FileType::class,array('label'=>'inserer une image',
+                'data_class' => null));
 
         ;
     }

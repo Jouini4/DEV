@@ -6,10 +6,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2 style="color:#9cfda4" ;>ÉVÉNEMENT</h2>
+                        <h2 style="color:#9cfda4" ;>EVENEMENT</h2>
                         <div class="breadcrumb__option">
                             <h2 style="color:#9cfda4" ;> &  </h2>
-                            <h2 style="color:#9cfda4" ;>  RÉSERVATION </h2>
+                            <h2 style="color:#9cfda4" ;>  RESERVATION </h2>
 
                         </div>
                     </div>
@@ -19,46 +19,30 @@
 
     </section>
 
-    <!-- Breadcrumb Section End -->
-    <div class="col-lg-8 col-md-7">
-        <div style="width:800px; margin:0 auto;">
-     <div>
-        <table border="1"width="50%">
+{% for i in evenements %}
+<div style="width:800px; margin:0 auto;">
+    <div class="blog-entry align-self-stretch">
+        <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~i.image) }};">
+        </a>
+        <div class="text mt-3">
+            <div class="meta mb-2">
 
-            <thead>
-            <tr>
-                <th>nom</th>
-                <th>description</th>
-                <th>lieu</th>
-                <th>date</th>
-                <th>prix</th>
-                <th>nbr place</th>
-                <th>image</th>
-
-
-            </tr>
-            </thead>
-
-            {% for i in evenements  %}
-
-                <tr>
-                    <td>{{ i.nom_event }}</td>
-                    <td>{{ i.description_event }}</td>
-                    <td>{{ i.lieu_event }}</td>
-                    <td>{{ i.date | date('d/m/y') }}</td>
-                    <td>{{ i.prix_event }}</td>
-                    <td>{{ i.nbr_place }}</td>
-                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ i.image) }}" width="100" height="200"></td>
-                    <td><a href="{{ path ('reservation') }}">Réserver</a></td>
-
-                </tr>
+                <div class="blog__details__text">
+                    <img align="center" src="{{ asset('uploads/'~ i.image) }}"  alt="">
+                    <h3 align="center"><p1>Nom    : </p1>{{ i.nom_event }}</h3>
+                    <h3 align="center"><p1>Description   : </p1>{{ i.description_event }}</h3>
+                    <h3 align="center"><p1>Lieu  : </p1>{{ i.lieu_event }}</h3>
+                    <h3 align="center"><p1>Date  : </p1>{{ i.date | date('d/m/y')  }}</h3>
+                    <h3 align="center"><p1>Prix  : </p1>{{ i.prix_event }}</h3>
+                    <h3 style=" text-align: center"> <a href="{{ path ('createreservation') }}"><button class="btn btn-success">Réserver</button ></a></h3>
 
 
-            {% endfor %}
 
-        </table>
-     </div>
+
+                </div>
+            </div>
         </div>
     </div>
+</div>
+                {% endfor %}
 {% endblock %}
-

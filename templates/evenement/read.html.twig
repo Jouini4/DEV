@@ -26,16 +26,18 @@
             <td>{{ i.prix_event }}</td>
             <td>{{ i.nbr_place }}</td>
             <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ i.image) }}" width="200" height="100"></td>
-            <td><a href="{{path("delete",{'id':i.id})}}">supprimer</a>
+            <td><a href="{{path("delete",{'id':i.id})}}"><button class ="btn btn-danger">supprimer </button></a>
             </td>
-             <td><a href="{{path("update",{'id':i.id})}}">modifier</a>
+             <td><a href="{{path("update",{'id':i.id})}}"><button class="btn btn-warning">modifier</button></a>
             </td>
 
         </tr>
 
 
     {% endfor %}
-    <td><a href="{{path("create")}}">Ajouter</a>
+    <td><a href="{{path("create")}}"><button class="btn btn-primary">Ajouter</button></a></td>
 </table>
+
     </div>
+
 {% endblock %}

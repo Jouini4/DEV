@@ -1,3 +1,59 @@
 {% extends 'front.base.html.twig' %}
 {% block body %}
+
+      <div>
+        <h1 style=" text-align: center">Bienvenue</h1>
+        <h2 style=" text-align: center"> Remplir votre Reservation </h2>
+      </div>
+      <div style="width:800px; margin:0 auto;">
+
+  <div class="row">
+  <div class="col-lg-6">
+  <div class="checkout__input">
+        {{ form_start(form) }}
+        {{ form_label(form.email,"Adresse Email")  }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+  </div>
+
+  </div>
+  </div>
+        <br>
+          <div class="row">
+              <div class="col-lg-6">
+                  <div class="checkout__input">
+
+        {{ form_label(form.nom,"Nom")  }}
+        {{ form_widget(form.nom) }}
+        {{ form_errors(form.nom) }}
+      </div>
+
+    </div>
+    </div>
+          <br>
+          <div class="row">
+              <div class="col-lg-6">
+                  <div class="checkout__input">
+
+        {{ form_label(form.prenom,"Prenom")  }}
+        {{ form_widget(form.prenom) }}
+        {{ form_errors(form.prenom) }}
+    </div>
+
+    </div>
+    </div>
+        <br>
+          <div class="row">
+              <div class="col-lg-6">
+                  <div class="checkout__input">
+        {{ form_label(form.num_tel,"numéro de téléphone")  }}
+        {{ form_widget(form.num_tel) }}
+        {{ form_errors(form.num_tel) }}
+        {{ form_end(form) }}
+    </div>
+
+    </div>
+    </div>
+      </div>
+
 {% endblock %}
