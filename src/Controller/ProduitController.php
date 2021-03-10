@@ -4,13 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitControllerType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonRespImageonse;
 
-class ProduitController extends AbstractController
+
+
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ProduitController extends Controller
 {
 
 
@@ -28,12 +35,13 @@ class ProduitController extends AbstractController
     /**
      * @Route("/afficherProduit", name="afficherProduit")
      */
-    public function afficherProduit()
+    public function afficherProduit(Request $request)
     {
-        $listProduit=$this->getDoctrine()->getRepository(Produit::class)->findAll();
-        return $this->render('frontend/Produit.html.twig', [
-            'controller_name' => 'ProduitController','produits'=>$listProduit
-        ]);
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
+        $produit=$this->get('knp_paginator')->paginate($produits,$request->query->getInt('page',1),9);
+
+        return $this->render('frontend/Produit.html.twig',array ('produits' => $produit
+        ));
     }
 
 
@@ -80,14 +88,27 @@ class ProduitController extends AbstractController
         //if les données reçues sont valides alors on va faire persist
         if(($form->isSubmitted())&&($form->isValid()))
         {
+
+           /**
+             * @var UploadedFile $file
+             */
+           $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('images_directory'),$fileName);
+
+            $produit->setImage($fileName);
+
+
             $em=$this->getDoctrine()->getManager();
             $em->persist($produit); //l'ajout dans la base
             ////persist joue le role de insert into
             $em->flush();
             return $this->redirectToRoute('afficherProduitback');
+
         }
         else //le cas où les données sont invalides ou ne sont pas soumis
         {
+
             return $this->render('produit/create.html.twig', [
                 'controller_name' => 'ProduitController',
                 'form'=> $form ->createView() //envoyé vers le twig une vue de notre formulaire
@@ -105,19 +126,27 @@ class ProduitController extends AbstractController
         $produit =$this->getDoctrine()
             ->getRepository(Produit::class)->find($id);
         $form = $this->createForm(ProduitControllerType::class, $produit);
-        $form-> add('modifier',SubmitType::class,['label'=>'modifier']);
+        $form-> add('modifier',SubmitType::class,['label'=>'enregistrer']);
         //ona créé notre formulaire et on lui a passé en argument notre objet
         $form->handleRequest($request);
         //le formulaire traite la requete reçue
 
         //if les données reçues sont valides alors on va faire persiste
         if (($form->isSubmitted()) && ($form->isValid())) {
+           /**
+             * @var UploadedFile $file
+             */
+          $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('images_directory'),$fileName);
+            $produit->setImage($fileName);
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('afficherProduitback');
         } else //le cas où les données sont invalides oun ne sont pas soumis
         {
-            return $this->render('produit/create.html.twig', [
+            return $this->render('produit/update.html.twig', [
                 'controller_name' => 'ProduitController',
                 'form' => $form->createView() //envoyé vers le twig
             ]);

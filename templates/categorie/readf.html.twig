@@ -1,0 +1,36 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+    <div style="width:800px; margin:0 auto;">
+
+
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>All Categories</span>
+                        </div>
+
+                            <ul>
+
+                                    {% for i in categories %}
+                                    <tr>
+                                       <li> <td>{{ i.NomCategorie }}</td>
+                                       </li>
+                                    </tr>
+                                {% endfor %}
+
+                            </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

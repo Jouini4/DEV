@@ -1,0 +1,26 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+    <div style="width:800px; margin:0 auto;">
+<table border="1"width="50%">
+    <tr>
+        <th> id</th>
+        <th>Nom catégorie</th>
+        <th> Suppression</th>
+        <th> Modification</th>
+    </tr>
+
+    {% for i in categories %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.NomCategorie }}</td>
+            <td><a href="{{path("supprimerCategorie",{'id':i.id})}}">Supprimer</a>
+            </td>
+            <td><a href="{{path("modifierCategorie",{'id':i.id})}}">Modifier</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+    <a href="{{ path('ajouterCategorie') }}">Créer une nouvelle catégorie</a>
+    <br>
+{% endblock %}

@@ -6,6 +6,9 @@ use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -20,31 +23,43 @@ class Produit
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
+     * @Assert\NotBlank()
      */
     private $Nom_Produit;
 
-    /**
-     * @ORM\Column(type="string", length=255)
+
+   /* /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     * @Assert\NotBlank()
      */
-    private $Categorie;
+   /* private $Categorie;*/
+
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=255,nullable=true)
+     * @Assert\NotBlank()
      */
     private $Description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please upload image")
-     * @Assert\File(mimeTypes={"image/jpeg"})
+     * @var string
+     * @Assert\NotBlank(message="Il faut importer une image")
+     * @Assert\Image()
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $Image;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float",nullable=true)
+     * @Assert\NotBlank()
      */
     private $Prix;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="Produits")
+     */
+    private $categorie;
 
     public function getId(): ?int
     {
@@ -63,14 +78,14 @@ class Produit
         return $this;
     }
 
-    public function getCategorie(): ?string
+    public function getCategorie(): ?Categorie
     {
-        return $this->Categorie;
+        return $this->categorie;
     }
 
-    public function setCategorie(string $Categorie): self
+    public function setCategorie(?Categorie $categorie): self
     {
-        $this->Categorie = $Categorie;
+        $this->categorie = $categorie;
 
         return $this;
     }
@@ -87,17 +102,22 @@ class Produit
         return $this;
     }
 
-    public function getImage()
+    /**
+     * @return string
+     */
+    public function getImage(): ?string
     {
-        return $this->Image;
+        return $this -> Image;
     }
 
-    public function setImage($Image)
+    /**
+     * @param string $Image
+     */
+    public function setImage(string $Image): void
     {
-        $this->Image = $Image;
-
-        return $this;
+        $this -> Image = $Image;
     }
+
 
     public function getPrix(): ?float
     {

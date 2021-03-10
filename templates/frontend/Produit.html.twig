@@ -1,6 +1,8 @@
 {% extends 'front.base.html.twig' %}
 
+
 {% block body %}
+
 
     <section class="breadcrumb-section set-bg" data-setbg="img/1.jpg">
         <div class="container">
@@ -15,37 +17,110 @@
 
     </section>
 
+
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Tous les produits</span>
+                        </div>
+                        <ul>
+                            <li><a href="#">Les huiles</a></li>
+                            <li><a href="#">Les savons</a></li>
+                            <li><a href="#">Les crèmes</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
 <div style="width:800px; margin:0 auto;">
-    <table border="5"width="70%">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nom_Produit</th>
-            <th>Categorie</th>
-            <th>Description</th>
-            <th>Prix</th>
-            <th>Image</th>
-            <th>Actions</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-        <tr>
-            <td>{{ produit.id }}</td>
-            <td>{{ produit.NomProduit }}</td>
-            <td>{{ produit.Categorie }}</td>
-            <td>{{ produit.Description }}</td>
-            <td>{{ produit.Prix }}</td>
-            <td><img src ="{{ asset('img/product/' ~ produit.image) }}"
-                     alt =""  width="100" height="100">
-            </td>
-            <td><button><input type="button" value="Acheter le produit"></td>
 
 
-        {% endfor %}
-    </table>
-</div>
+    <section class="shop-home-list section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12">
+                    {% for produit in produits  | slice(0,3) %}
+                        <div class="single-list">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="list-image overlay">
+                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
+                                        <a href="" class="buy"><i class=""></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-12 no-padding">
+                                    <div class="content">
+                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
+                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!-- End Single List  -->
+
+                    <!-- Start Single List  -->
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+
+                    {% for produit in produits  | slice(3,3) %}
+                        <div class="single-list">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="list-image overlay">
+                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
+                                        <a href="" class="buy"><i class=""></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-12 no-padding">
+                                    <div class="content">
+                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
+                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    {% for produit in produits  | slice(6,3) %}
+                        <div class="single-list">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="list-image overlay">
+                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
+                                        <a href="" class="buy"><i class=""></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-12 no-padding">
+                                    <div class="content">
+                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
+                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <div class="navigation">
+        {{ knp_pagination_render(produits) }}
+    </div>
+
 {% endblock %}
 
 
