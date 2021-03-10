@@ -17,6 +17,7 @@ class ReservationType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('num_tel',NumberType::class)
+            ->add('nombre_place',NumberType::class)
         ;
     }
 

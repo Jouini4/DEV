@@ -2,10 +2,13 @@
 {% block body %}
     <div style="width:800px; margin:0 auto;">
 
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <center><input type="text" id="search" placeholder="CHERCHER Evenement..."></center>
+        <br>
+        <br>
+        <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 
-<table border="1"width="50%" >
-
-    <tr>
+    <tr role="row">
         <th>nom</th>
         <th>description</th>
         <th>lieu</th>
@@ -16,6 +19,7 @@
         <th> suppression</th>
         <th> modification</th>
     </tr>
+    <tbody>
 
     {% for i in evenement %}
         <tr>
@@ -32,12 +36,47 @@
             </td>
 
         </tr>
+        <script>
+            $(document).ready(function(){
+                $('#search').keyup(function(){
+                    search_table($(this).val());
+                });
+                function search_table(value){
+                    $('#tableac tbody tr').each(function(){
+                        var found = 'false';
+                        $(this).each(function(){
+                            if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                            {
+                                found = 'true';
+                            }
+                        });
+                        if(found == 'true')
+                        {
+                            $(this).show();
 
+                        }
+                        else
+                        {
+                            $(this).hide();
 
+                        }
+                    });
+                }
+            });
+        </script>
     {% endfor %}
-    <td><a href="{{path("create")}}"><button class="btn btn-primary">Ajouter</button></a></td>
+
+    </tbody>
+
 </table>
+        <div class="navigation">
+            {{ knp_pagination_render(evenement) }}
+        </div>
+
+        <br>
+      <a href="{{path("create")}}"><button class="btn btn-primary btn-lg btn-block">Ajouter</button></a>
 
     </div>
+
 
 {% endblock %}

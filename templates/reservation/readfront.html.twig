@@ -1,0 +1,44 @@
+{% extends 'front.base.html.twig' %}
+
+
+{% block body %}
+    <div style="width:800px; margin:0 auto;">
+
+
+        <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+
+
+            <tr role="row">
+                <th>email</th>
+                <th>nom</th>
+                <th>prenom</th>
+                <th>numero telephone</th>
+                <th>nombre de places</th>
+                <th> suppression</th>
+                <th> modification</th>
+            </tr>
+            <tbody>
+
+            {% for i in reservation %}
+                <tr>
+                    <td>{{ i.email }}</td>
+                    <td>{{ i.nom }}</td>
+                    <td>{{ i.prenom }}</td>
+                    <td>{{ i.num_tel }}</td>
+                    <td>{{ i.nombre_place }}</td>
+                    <td><a href="{{path("deletereservation",{'id':i.id})}}"><button class ="btn btn-danger">supprimer </button></a> </td>
+                    <td><a href="{{path("updatereservation",{'id':i.id})}}"><button class="btn btn-warning">modifier</button></a> </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+
+
+
+
+        </table>
+        <a href="{{path("readfront")}}"><button class="btn btn-warning">back to list evenements</button></a>
+
+    </div>
+{% endblock %}

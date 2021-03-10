@@ -10,7 +10,7 @@
   <div class="row">
   <div class="col-lg-6">
   <div class="checkout__input">
-        {{ form_start(form) }}
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
         {{ form_label(form.email,"Adresse Email")  }}
         {{ form_widget(form.email) }}
         {{ form_errors(form.email) }}
@@ -49,11 +49,23 @@
         {{ form_label(form.num_tel,"numéro de téléphone")  }}
         {{ form_widget(form.num_tel) }}
         {{ form_errors(form.num_tel) }}
-        {{ form_end(form) }}
+
     </div>
 
     </div>
     </div>
+          <br>
+          <div class="row">
+              <div class="col-lg-6">
+                  <div class="checkout__input">
+                      {{ form_label(form.nombre_place,"nombre de place à réservé")  }}
+                      {{ form_widget(form.nombre_place) }}
+                      {{ form_errors(form.nombre_place) }}
+                      {{ form_end(form) }}
+                  </div>
+
+              </div>
+          </div>
       </div>
 
 {% endblock %}

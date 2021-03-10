@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EvenementRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +18,10 @@ use Symfony\Component\HttpFoundation\File\File;
 
 
 
+
 use Symfony\Component\Validator\Constraints as Assert;
 
-class EvenementController extends AbstractController
+class EvenementController extends Controller
 {
     /**
      * @Route("/evenement", name="evenement")
@@ -35,7 +39,7 @@ class EvenementController extends AbstractController
     {
         $evenement= new Evenement();
         $form=$this->createForm(EvenementType::class,$evenement);
-        $form-> add('ajouter',SubmitType::class,['label'=>'créer','attr'=>array('class'=>'btn btn-primary mt-3'),]);
+        $form-> add('ajouter',SubmitType::class,['label'=>'créer','attr'=>array('class'=>'btn btn-primary btn-lg btn-block'),]);
         //on a créé notre formulaire et on lui a passé en argument notre objet
         $form->handleRequest($request);
         //le formulaire traite la requete reçue
@@ -67,9 +71,18 @@ class EvenementController extends AbstractController
     /**
      * @Route("/read", name="read")
      */
-    public function read()
+    public function read(Request $request ,EvenementRepository $evenementRepository,PaginatorInterface $paginator):Response
     {
-        $listEvenement=$this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        $allEvenement=$this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        // Paginate the results of the query
+         $listEvenement= $paginator->paginate(
+        // Doctrine Query, not results
+            $allEvenement,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
         //dd($listClassroom);
         return $this->render('evenement/read.html.twig', [
             'controller_name' => 'EvenementController','evenement'=>$listEvenement
@@ -78,14 +91,38 @@ class EvenementController extends AbstractController
     /**
      * @Route("/readeventfront", name="readfront")
      */
-    public function readfront()
+    public function readfront(Request $request ,EvenementRepository $evenementRepository,PaginatorInterface $paginator):Response
     {
-        $listEvenement=$this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        $allEvenement=$this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        // Paginate the results of the query
+        $listEvenement= $paginator->paginate(
+        // Doctrine Query, not results
+            $allEvenement,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
         //dd($listClassroom);
         return $this->render('frontend/Evenement.html.twig', [
             'controller_name' => 'EvenementController','evenements'=>$listEvenement
         ]);
     }
+
+    /**
+     * @route("/readeventfront/{id}", name="evenement1")
+     */
+
+    public function afficherEvent($id){
+
+        $evenement=$this->getDoctrine()->getRepository(Evenement::class)->find($id );
+
+        return $this->render('evenement/evenement1.html.twig', [
+            'evenement' => $evenement
+        ]);
+
+    }
+
     /**
      * @Route("/delete/{id}", name="delete")
      */
@@ -109,7 +146,7 @@ class EvenementController extends AbstractController
         $evenement =$this->getDoctrine()
             ->getRepository(Evenement::class)->find($id);
         $form = $this->createForm(EvenementType::class, $evenement);
-        $form-> add('modifier',SubmitType::class,['label'=>'modifier']);
+        $form-> add('modifier',SubmitType::class,['label'=>'modifier','attr'=>array('class'=>'btn btn-success mt-3')]);
         //ona créé notre formulaire et on lui a passé en argument notre objet
         $form->handleRequest($request);
         //le formulaire traite la requete reçue
@@ -128,7 +165,7 @@ class EvenementController extends AbstractController
             return $this->redirectToRoute('read');
         } else //le cas où les données sont invalides oun ne sont pas soumis
         {
-            return $this->render('backend/evenement.html.twig', [
+            return $this->render('evenement/modifier.html.twig', [
                 'controller_name' => 'EvenementController',
                 'form' => $form->createView() //envoyé vers le twig
             ]);

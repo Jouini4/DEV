@@ -99,7 +99,10 @@
                         <ul>
                             <li class="active"><a href="{{ path('frontindex') }}">Acceuil</a></li>
                             <li><a href="{{ path('produit') }}">Produits</a></li>
-                            <li><a href="{{ path('evenement') }}">Evenements</a></li>
+                            <li><a href="{{ path('evenement') }}">Evenements</a>
+                                <ul class="header__menu__dropdown"  ><a  href="{{ path('readreservation') }}">Mes Réservations</a></ul>
+
+                            </li>
                             <li><a href="{{ path('blog') }}">Astuce et Video DIY</a></li>
                             <li><a href="{{ path('reclamation') }}">Réclamation</a></li>
                             <li><a href="{{ path ('contact') }}">Contact</a></li>

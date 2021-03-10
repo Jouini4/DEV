@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
@@ -16,30 +17,35 @@ class Reservation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    public $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * * @Assert\NotBlank (message ="le nom de l'event est obligatoire")
+     */
+    public $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * * @Assert\NotBlank
      */
-    private $nom;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * * @Assert\NotBlank
-     */
-    private $prenom;
+    public $prenom;
 
     /**
      * @ORM\Column(type="integer")
      * * @Assert\NotBlank
      */
-    private $num_tel;
+    public $num_tel;
+    /**
+     * @ORM\Column(type="integer")
+     * * @Assert\NotBlank
+     */
+    public $nombre_place;
 
     public function getId(): ?int
     {
@@ -92,5 +98,24 @@ class Reservation
         $this->num_tel = $num_tel;
 
         return $this;
+
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNombrePlace()
+    {
+        return $this->nombre_place;
+    }
+
+    /**
+     * @param mixed $nombre_place
+     */
+    public function setNombrePlace($nombre_place): void
+    {
+        $this->nombre_place = $nombre_place;
+    }
+
+
 }

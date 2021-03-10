@@ -30,7 +30,7 @@ class Evenement
     public $nom_event;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
       * @Assert\NotBlank (message ="la description de l'event est obligatoire")
      */
     public $description_event;
@@ -60,7 +60,6 @@ class Evenement
     /**
      * @var string
      * @Assert\NotBlank(message="Il faut importer une image")
-     * @Assert\Image()
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;

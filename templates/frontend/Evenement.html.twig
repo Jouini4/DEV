@@ -1,5 +1,6 @@
 {% extends 'front.base.html.twig' %}
 {% block body %}
+
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/1.jpg">
         <div class="container">
@@ -19,8 +20,19 @@
 
     </section>
 
+
+    <div style="width:800px; margin:0 auto;">
+
+    <table id="tableac" >
+    <tbody>
+
 {% for i in evenements %}
-<div style="width:800px; margin:0 auto;">
+    <tr>
+
+
+
+
+
     <div class="blog-entry align-self-stretch">
         <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~i.image) }};">
         </a>
@@ -28,13 +40,19 @@
             <div class="meta mb-2">
 
                 <div class="blog__details__text">
+                    <a href="{{ url('evenement1',{'id':i.id}) }}" >
                     <img align="center" src="{{ asset('uploads/'~ i.image) }}"  alt="">
+                    </a>
                     <h3 align="center"><p1>Nom    : </p1>{{ i.nom_event }}</h3>
-                    <h3 align="center"><p1>Description   : </p1>{{ i.description_event }}</h3>
-                    <h3 align="center"><p1>Lieu  : </p1>{{ i.lieu_event }}</h3>
-                    <h3 align="center"><p1>Date  : </p1>{{ i.date | date('d/m/y')  }}</h3>
-                    <h3 align="center"><p1>Prix  : </p1>{{ i.prix_event }}</h3>
+                    <p align="center"><h4>Description   : </h4>{{ i.description_event }}</p>
+                    <p align="center"><p4>Lieu  : </p4>{{ i.lieu_event }}</p>
+                    <p align="center"><p4>Date  : </p4>{{ i.date | date('d/m/y')  }}</p>
+                    <p align="center"><p4>Prix  : </p4>{{ i.prix_event }} DT</p>
+                    <h4 align="center"><p4>Places disponibles  : </p4>{{ i.nbr_place }} </h4>
+
+                     <tr><h4 style=" text-align: center"> <a href="{{ url('evenement1',{'id':i.id}) }}" ><button class="btn btn-success"> show </button></a></h4>
                     <h3 style=" text-align: center"> <a href="{{ path ('createreservation') }}"><button class="btn btn-success">Réserver</button ></a></h3>
+                    </tr>
 
 
 
@@ -43,6 +61,21 @@
             </div>
         </div>
     </div>
-</div>
+
+
+
+    </tr>
+
+
+
                 {% endfor %}
+
+    </tbody>
+    </table>
+
+        <div class="product__pagination blog__pagination">
+            {{ knp_pagination_render(evenements) }}
+
+        </div>
+    </div>
 {% endblock %}

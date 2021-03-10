@@ -1,0 +1,41 @@
+{% extends 'front.base.html.twig' %}
+
+{% block body %}
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <div class="row vertical-gap">
+            <div class="col-lg-8">
+                <!-- START: Post -->
+                <div class="nk-blog-post nk-blog-post-single">
+                    <!-- START: Post Text -->
+                    <div class="nk-post-text mt-0">
+
+    <div class="nk-post-img">
+        <img class="product__details__pic__item--large" src=" {{ asset('uploads/' ~ evenement.image) }}"   >
+    </div>
+    <div class="nk-gap-1"></div>
+    <h1 class="nk-post-title h4"> {{evenement.nom_event}}</h1>
+    <div class="nk-post-by">
+
+    <div class="nk-post-categories">
+
+        <span class="bg-main-1">{{ evenement.lieu_event }} </span>
+        <br>
+
+        <span class="bg-main-2">{{ evenement.prix_event }} DT</span>
+
+    </div>
+
+    <div class="nk-gap"></div>
+    <p>{{ evenement.description_event }}</p>
+</div>
+        <h3 style=" text-align: center"> <a href="{{ path ('createreservation') }}"><button class="btn btn-success">Réserver</button ></a></h3>
+
+    <a href="{{ path("readfront") }}" ><button class="btn btn-warning">back to list evenements</button></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

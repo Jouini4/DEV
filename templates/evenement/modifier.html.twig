@@ -2,7 +2,7 @@
 {% block body %}
     <div style="width:800px; margin:0 auto;">
 
-        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+        {{ form_start(form ) }}
         {{ form_label(form.nom_event,"Nom de l'évènement")  }}
         {{ form_widget(form.nom_event) }}
         {{ form_errors(form.nom_event) }}
@@ -26,27 +26,31 @@
         {{ form_errors(form.prix_event) }}
 
         <br>
-    <div class="row">
-    <div class="col-lg-6">
-    <div class="checkout__input">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="checkout__input">
 
-        {{ form_label(form.nbr_place,"Nombre de place")  }}
-        {{ form_widget(form.nbr_place) }}
-        {{ form_errors(form.nbr_place) }}
-    </div>
+                    {{ form_label(form.nbr_place,"Nombre de place")  }}
+                    {{ form_widget(form.nbr_place) }}
+                    {{ form_errors(form.nbr_place) }}
+                </div>
 
-    </div>
-    </div>
+            </div>
+        </div>
         <br>
 
         {{ form_label(form.image,"Insérer votre image")  }}
         {{ form_widget(form.image) }}
         {{ form_errors(form.image) }}
 
+
         {{ form_end(form) }}
+
         <br>
         <br>
-        <a href="{{path("read")}}"><button class="btn btn-secondary btn-lg">Back to list</button></a>
+        <a href="{{path("read")}}"><button class="btn btn-dark">Back to list</button></a>
 
     </div>
+
+
 {% endblock %}

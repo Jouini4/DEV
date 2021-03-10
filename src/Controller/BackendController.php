@@ -104,11 +104,11 @@ class BackendController extends AbstractController
     }
 
     /**
-     * @Route("/back/stock", name="backstock")
+     * @Route("/back/listreservation", name="listreservation")
      */
     public function stock(): Response
     {
-        return $this->render('backend/stock.html.twig', [
+        return $this->render('backend/reservation.html.twig', [
 
         ]);
     }
