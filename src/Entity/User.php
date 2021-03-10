@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,7 +28,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      */
     private $roles = [];
 
@@ -47,29 +49,25 @@ class User implements UserInterface
     private $userphone;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $useraddress;
+
+    /**
      * @ORM\Column(type="integer")
      */
-    private $userCIN;
+    private $usercin;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $useradress;
+    private $activation_token;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $birthday;
+    private $reset_token;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $userfirstname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $userlastname;
 
     public function getId(): ?int
     {
@@ -110,11 +108,15 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(json $roles): self
     {
         $this->roles = $roles;
 
         return $this;
+    }
+    function addRoles($roles)
+    {
+        $this->roles[] = $roles;
     }
 
     /**
@@ -171,63 +173,57 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUserCIN(): ?int
+    public function getUseraddress(): ?string
     {
-        return $this->userCIN;
+        return $this->useraddress;
     }
 
-    public function setUserCIN(int $userCIN): self
+    public function setUseraddress(string $useraddress): self
     {
-        $this->userCIN = $userCIN;
+        $this->useraddress = $useraddress;
 
         return $this;
     }
 
-    public function getUseradress(): ?string
+    public function getUsercin(): ?int
     {
-        return $this->useradress;
+        return $this->usercin;
     }
 
-    public function setUseradress(string $useradress): self
+    public function setUsercin(int $usercin): self
     {
-        $this->useradress = $useradress;
+        $this->usercin = $usercin;
 
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getActivationToken(): ?string
     {
-        return $this->birthday;
+        return $this->activation_token;
     }
 
-    public function setBirthday(\DateTimeInterface $birthday): self
+    public function setActivationToken(?string $activation_token): self
     {
-        $this->birthday = $birthday;
+        $this->activation_token = $activation_token;
 
         return $this;
     }
 
-    public function getUserfirstname(): ?string
+    public function getResetToken(): ?string
     {
-        return $this->userfirstname;
+        return $this->reset_token;
     }
 
-    public function setUserfirstname(string $userfirstname): self
+    public function setResetToken(?string $reset_token): self
     {
-        $this->userfirstname = $userfirstname;
+        $this->reset_token = $reset_token;
 
         return $this;
     }
 
-    public function getUserlastname(): ?string
-    {
-        return $this->userlastname;
-    }
 
-    public function setUserlastname(string $userlastname): self
-    {
-        $this->userlastname = $userlastname;
 
-        return $this;
-    }
+
+
+
 }
