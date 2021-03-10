@@ -26,6 +26,7 @@ class Astuce
 
     /**
      *@ORM\Column(type="string", length=255)
+     *@Assert\Length(min=3,minMessage="plus de 3 caractere")
      */
     private $titre;
 
@@ -40,6 +41,8 @@ class Astuce
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;
+
+
 
 
     public function getId(): ?int

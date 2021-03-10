@@ -20,6 +20,8 @@ class AstuceController extends AbstractController
 {
     /**
      * @Route("/", name="astuce_index", methods={"GET"})
+
+     * @return Response
      */
     public function index(AstuceRepository $astuceRepository): Response
     {
@@ -30,6 +32,8 @@ class AstuceController extends AbstractController
 
     /**
      * @Route("/new", name="astuce_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {

@@ -14,6 +14,9 @@ class VideoType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
+            ->add('url')
+
+
         ;
     }
 

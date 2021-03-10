@@ -1,5 +1,6 @@
 {% extends 'back.base.html.twig' %}
 {% block body %}
+<div style="width:800px; margin:0 auto;">
     <title>Astuce</title>
     <h1>Astuce</h1>
 
@@ -29,4 +30,5 @@
     <a href="{{ path('astuce_edit', {'id': astuce.id}) }}">edit</a>
 
     {{ include('astuce/_delete_form.html.twig') }}
+</div>
 {% endblock %}

@@ -3,6 +3,8 @@
 
 {% block body %}
 <div style="width:800px; margin:0 auto;">
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <center><input type="text" id="search" placeholder="CHERCHER Astuce..."></center>
 
     <div class="container">
         <div class="row">
@@ -13,8 +15,9 @@
             </div>
         </div>
     </div>
+    <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 
-        <table class="table">
+
             <thead>
             <tr>
                 <th>Id</th>
@@ -30,21 +33,50 @@
                     <td>{{ astuce.id }}</td>
                     <td>{{ astuce.titre }}</td>
                     <td>{{ astuce.description }}</td>
-                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }}" width="300" height="300"></td>
+                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }} " width="200" height="100" ></td>
                     <td>
-                        <a href="{{ path('astuce_show', {'id': astuce.id}) }}">show</a>
-                        <a href="{{ path('astuce_edit', {'id': astuce.id}) }}">edit</a>
+                        <a href="{{ path('astuce_show', {'id': astuce.id}) }}"><button class="btn btn-danger">show</button></a>
+                        <a href="{{ path('astuce_edit', {'id': astuce.id}) }}"><button class="btn btn-danger">edit</button></a>
                     </td>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">no records found</td>
-                </tr>
+
+
+                <script>
+                    $(document).ready(function(){
+                        $('#search').keyup(function(){
+                            search_table($(this).val());
+                        });
+                        function search_table(value){
+                            $('#tableac tbody tr').each(function(){
+                                var found = 'false';
+                                $(this).each(function(){
+                                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                    {
+                                        found = 'true';
+                                    }
+                                });
+                                if(found == 'true')
+                                {
+                                    $(this).show();
+
+                                }
+                                else
+                                {
+                                    $(this).hide();
+
+                                }
+                            });
+                        }
+                    });
+                </script>
             {% endfor %}
             </tbody>
-        </table>
 
-        <a href="{{ path('astuce_new') }}">Create new</a>
-    <a href="{{ path('astuce_new') }}">edit</a>
-    </div>
+        </table>
+    <a href="{{ path('astuce_new') }}"><button class="btn btn-danger">Create new</button></a>
+    <a href="{{ path('astuce_new') }}"><button class="btn btn-danger">edit</button></a>
+
     {% endblock %}
+
+
+
