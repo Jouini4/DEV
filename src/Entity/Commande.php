@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
@@ -20,7 +21,7 @@ class Commande
     private $REF;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $prixTotal;
 
@@ -31,29 +32,63 @@ class Commande
     private $client;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message=" Adresse devrait etre non vide")
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Description Adresse devrait etre non vide")
+     *
      */
     private $descriptionAdresse;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Gouvernorat devrait etre non vide")
      */
     private $gouvernorat;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="integer",
+     *      message="le code postal doit etre écrit par des chiffres uniquement")
+     *
+     * @Assert\Length(
+     *     min=4,
+     *     max=4,
+     *     minMessage="Le code postal doit etre composé par 4 chiffres",
+     *     maxMessage="Le code postal doit etre composé par 4 chiffres"
+     * )
+     * @Assert\NotBlank(message="Code Postal devraitt etre non vide")
+     *
      */
     private $codePostal;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(message="Numero Telephone devrait etre non vide")
+     * @Assert\Length(
+     *     min=8,
+     *     max=8,
+     *     minMessage="Le numéro téléphone doit etre composé par 8 chiffres",
+     *     maxMessage="Le numéro téléphone doit etre composé par 8 chiffres"
+     * )
+     * @Assert\Type(
+     *     type="integer",
+     *      message="le numéro téléphone doit etre écrit par des chiffres uniquement")
+     *
      */
     private $numeroTelephone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class)
+     */
+    private $Produits;
+
+
 
 
 
@@ -152,4 +187,18 @@ class Commande
 
         return $this;
     }
+
+    public function getProduits(): ?Produit
+    {
+        return $this->Produits;
+    }
+
+    public function setProduits(?Produit $Produits): self
+    {
+        $this->Produits = $Produits;
+
+        return $this;
+    }
+
+
 }

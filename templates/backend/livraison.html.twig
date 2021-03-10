@@ -11,6 +11,7 @@
                     <th>Adresse e-mail</th>
                     <th>Adresse</th>
                     <th>Description Adresse</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -24,7 +25,9 @@
                         <td>{{ livraison.commande.client.email }}</td>
                         <td>{{ livraison.commande.Adresse }}</td>
                         <td>{{ livraison.commande.descriptionAdresse }}</td>
+                        <td>{{ livraison.statut }}</td>
                         <td>
+
 
                             <div class="card text-white mb-2">
                                 <div class="card bg-danger text-white mb">
@@ -32,7 +35,19 @@
                                         <a class="small text-white stretched-link" href="{{ path('backsupprimerlivraison',{'Numero': livraison.Numero}) }}">Supprimer</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
+
+
                                 </div>
+                                {% if livraison.statut == "En Cours" %}
+                                <div class="card bg-success text-white mb">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ path('backtraiterlivraison',{'id': livraison.Numero}) }}">Livrée</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+
+
+                                </div>
+                                {% endif %}
                             </div>
 
                         </td>

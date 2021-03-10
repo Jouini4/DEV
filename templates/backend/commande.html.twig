@@ -51,6 +51,12 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+
+            <a class="btn btn-primary" href="{{ path('commandestat') }}" role="button">Statistiques <div class="small text-white"><i class="fas fa-angle-right"></i></div></a>
+
+            <div><p>Nombre total des commandes : {{ numCommandes }}</p></div>
+            <div><p>Revenu total des commandes : {{ totalCommandes }}</p></div>
         </div>
     </div>
 {% endblock %}

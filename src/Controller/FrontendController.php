@@ -5,12 +5,16 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Entity\Commande;
 use App\Entity\Livraison;
+use App\Entity\Produit;
 use App\Form\CommandeType;
 use App\Form\LivraisonType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FrontendController extends AbstractController
 {
@@ -36,8 +40,10 @@ class FrontendController extends AbstractController
     /**
      * @Route("/Ajoutercommande", name="Addcommande")
      */
-    public function AddCommande(Request $request): Response
+    public function AddCommande(Request $request,ValidatorInterface $validator): Response
     {
+
+        $errors = null;
        // dump($request);
         $form = $this->createForm(CommandeType::class);
         $form= $form->handleRequest($request);
@@ -47,20 +53,53 @@ class FrontendController extends AbstractController
         $total_panier = 750;
         $em=$this->getDoctrine()->getManager();
         $client = $em->getRepository(Client::class)->find(1);
+
+
+        // Static apres avec Panier
+        $produit = $em->getRepository(Produit::class)->find(1);
+        dump($produit);
+
+
         if ($form->isSubmitted())
         {
-            dump($request);
             $commande->setAdresse($request->request->get('commande')['adresse']);
-            $commande->setDescriptionAdresse($request->request->get('commande')['description_adresse']);
+            $commande->setDescriptionAdresse($request->request->get('commande')['descriptionAdresse']);
             $commande->setGouvernorat($request->request->get('commande')['gouvernorat']);
-            $commande->setCodePostal($request->request->get('commande')['code_postal']);
-            $commande->setNumeroTelephone((int)$request->request->get('commande')['numero_telephone']);
-            $commande->setPrixTotal($total_panier);
+            $commande->setCodePostal((int)$request->request->get('commande')['codePostal']);
+            $commande->setNumeroTelephone((int)$request->request->get('commande')['numeroTelephone']);
+            $commande->setPrixTotal($produit->getPrix());
+            $commande->setProduits($produit);
 
             $commande->setClient($client);
 
+            $errors = $validator->validate($commande);
+            dump($errors);
+            if(count($errors)>0)
+            {
+                return $this->render('frontend/AjouterCommande.html.twig', ['client'=>$client,'total'=>$total_panier,
+                    'form' => $form->createView(),
+                    'errors'=> $errors,
+                    'produit'=>$produit
+
+                ]);
+            }
+
             $em->persist($commande);
             $em->flush();
+            /*$email = (new Email())
+                ->from('anis.hajali@esprit.tn')
+                ->to('omar.trabelsi.1@esprit.tn')
+                //->attachFromPath('/path/to/documents/terms-of-use.pdf')
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('Time for Symfony Mailer!')
+                ->text('Bonjour nom_client \n Votre commande de : \n Produit 1 , produit 2 est passé avec succees ')
+                ->html('<p>See Twig integration for better HTML integration!</p>');
+
+            $mailer->send($email);*/
+
             return $this->redirectToRoute('livraison');
 
         }
@@ -69,6 +108,7 @@ class FrontendController extends AbstractController
 
         return $this->render('frontend/AjouterCommande.html.twig', ['client'=>$client,'total'=>$total_panier,
             'form' => $form->createView(),
+            'produit'=>$produit
 
         ]);
 
@@ -177,7 +217,7 @@ class FrontendController extends AbstractController
     /**
      * @Route("/livraison", name="livraison")
      */
-    public function Livraison(Request $request): Response
+    public function Livraison(Request $request,MailerInterface $mailer): Response
     {
         $form = $this->createForm(LivraisonType::class);
         $form= $form->handleRequest($request);
@@ -188,13 +228,29 @@ class FrontendController extends AbstractController
         ],[
             'REF'=>'desc'
         ]);
+        $produit = $commande[0]->getProduits();
+
 
         $livraison = new Livraison();
 
         if($form->isSubmitted()) {
+            //$livraison->setStatut("En cours");
             $livraison->setCommande($commande[0]);
             $em->persist($livraison);
             $em->flush();
+
+            $email = (new Email())
+                ->from('anis.hajali@esprit.tn')
+                ->to($client->getEmail())
+                ->priority(Email::PRIORITY_HIGH)
+                ->subject('[Shahba] Confirmation de la Commande !')
+                //->text('Sending emails is fun again!')
+                ->html('<p>Bonjour cher(e) Mr/Mme '.$client->getNom().' '.$client->getPrenom().'</p><br>
+                   <p>Votre Commande est bien passée. Votre Livraison est En Cours .</p><br>
+                   <p>Merci pour Votre Confiance !!</p>');
+
+            $mailer->send($email);
+
             return $this->redirectToRoute('paiement');
         }
 
@@ -206,5 +262,25 @@ class FrontendController extends AbstractController
             'commande'=>$commande[0],
 
         ]);
+    }
+    /**
+     * @Route("/mail", name="mail")
+     */
+    public function Mail(MailerInterface $mailer): Response
+    {
+        $email = (new Email())
+            ->from('anis.hajali@esprit.tn')
+            ->to('omar.trabelsi.1@esprit.tn')
+            //->attachFromPath('/path/to/documents/terms-of-use.pdf')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
+        return $this->redirectToRoute('frontindex');
     }
 }

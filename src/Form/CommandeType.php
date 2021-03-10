@@ -17,12 +17,12 @@ class CommandeType extends AbstractType
     {
         $builder
             ->add('adresse',TextType::class)
-            ->add('description_adresse',TextType::class)
+            ->add('descriptionAdresse',TextType::class)
             ->add('gouvernorat',TextType::class)
-            ->add('code_postal',NumberType::class,[
+            ->add('codePostal',NumberType::class,[
 
             ])
-            ->add('numero_telephone',NumberType::class)
+            ->add('numeroTelephone',NumberType::class)
             ->add('Payez',SubmitType::class,[
                 'label'=>'Procédez vers les détails de la livraison'
             ])

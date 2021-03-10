@@ -47,4 +47,19 @@ class CommandeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findTotalCommande()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.id,c.nom,c.prenom,
+            count(co.REF) as Totalcommandes
+            FROM App\Entity\Commande co, App\Entity\Client c 
+            WHERE co.client=c.id
+            GROUP BY c.id
+            ORDER by count(co.REF) DESC 
+            '
+        );
+        return $query->getResult();
+    }
 }

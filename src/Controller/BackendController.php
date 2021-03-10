@@ -6,10 +6,17 @@ use App\Entity\Client;
 use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Form\CommandeType;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class BackendController extends AbstractController
 {
@@ -66,16 +73,24 @@ class BackendController extends AbstractController
     {
         $em=$this->getDoctrine()->getManager();
         $commandes = $em->getRepository(Commande::class)->findAll();
+        $numCommandes = count($commandes);
+        $totalCommandes =0;
+        foreach($commandes as $c){
+            $totalCommandes+=$c->getPrixTotal();
+        }
         return $this->render('backend/commande.html.twig', [
-            'commandes'=>$commandes
+            'commandes'=>$commandes,
+            'numCommandes'=>$numCommandes,
+            'totalCommandes'=>$totalCommandes
 
         ]);
     }
     /**
      * @Route("/back/modifiercommande/{REF}", name="backmodifiercommande")
      */
-    public function Modifiercommande(Request $request,$REF): Response
+    public function Modifiercommande(Request $request,$REF,ValidatorInterface $validator): Response
     {
+        $errors=null;
         // dump($request);
         $form = $this->createForm(CommandeType::class);
         $form= $form->handleRequest($request);
@@ -84,25 +99,36 @@ class BackendController extends AbstractController
 
 
         $client = $em->getRepository(Client::class)->find($commande->getClient()->getId());
-        if ($form->isSubmitted())
-        {
+        if ($form->isSubmitted()) {
             dump($request);
             $commande->setAdresse($request->request->get('commande')['adresse']);
-            $commande->setDescriptionAdresse($request->request->get('commande')['description_adresse']);
+            $commande->setDescriptionAdresse($request->request->get('commande')['descriptionAdresse']);
             $commande->setGouvernorat($request->request->get('commande')['gouvernorat']);
-            $commande->setCodePostal($request->request->get('commande')['code_postal']);
-            $commande->setNumeroTelephone((int)$request->request->get('commande')['numero_telephone']);
+            $commande->setCodePostal((int)$request->request->get('commande')['codePostal']);
+            $commande->setNumeroTelephone((int)$request->request->get('commande')['numeroTelephone']);
+            $errors = $validator->validate($commande);
+            dump($errors);
+            if (count($errors) > 0) {
+                return $this->render('backend/modifiercommande.html.twig', [
+                    'form' => $form->createView(),
+                    'commande' => $commande,
+                    'errors' => $errors
+
+                ]);
+            }
 
 
             $em->flush();
-            return $this->redirectToRoute('backcommande');
 
+            return $this->redirectToRoute('backcommande');
         }
         return $this->render('backend/modifiercommande.html.twig', [
-            'form'=>$form->createView(),
-            'commande'=>$commande
+            'form' => $form->createView(),
+            'commande' => $commande,
 
         ]);
+
+
     }
     /**
      * @Route("/back/supprimercommande/{REF}", name="backsupprimercommande")
@@ -183,6 +209,50 @@ class BackendController extends AbstractController
 
         ]);
     }
+    /**
+     * @Route("/back/commandestat", name="commandestat")
+     */
+    public function commandestat(): Response
+    {
+
+        $em=$this->getDoctrine()->getManager();
+        $data = $em->getRepository(Commande::class)->findTotalCommande();
+
+        $d = array(['Nom Client', 'Nombre Total des commandes'],
+        );
+        foreach ($data as $res)
+        {
+
+            array_push($d,[$res['nom']." ".$res['prenom'],$res['Totalcommandes']]);
+        }
+
+
+
+
+
+
+
+
+        $chart = new ColumnChart();
+        $chart->getData()->setArrayToDataTable($d);
+
+        $chart->getOptions()->getChart()
+            ->setTitle('Nombre de commandes par client');
+
+        $chart->getOptions()
+            ->setBars('vertical')
+            ->setHeight(400)
+            ->setWidth(900)
+            ->setColors(['#7570b3', '#d95f02', '#7570b3'])
+            ->getVAxis()
+            ->setFormat('decimal');
+
+
+        return $this->render('backend/statcommande.html.twig', [
+            'chart'=>$chart
+
+        ]);
+    }
 
     /**
      * @Route("/back/video", name="backvideo")
@@ -203,5 +273,36 @@ class BackendController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/back/backtraiterlivraison/{id}", name="backtraiterlivraison")
+     */
+    public function traiterlivraison($id,MailerInterface $mailer): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $livraison=$em->getRepository(Livraison::class)->find($id);
+        $livraison->setStatut("Livree");
+        $client=$em->getRepository(Client::class)->find(1);
+        $livraisons = $em->getRepository(Livraison::class)->findAll();
+        $email = (new Email())
+            ->from('anis.hajali@esprit.tn')
+            ->to($client->getEmail())
+            ->priority(Email::PRIORITY_HIGH)
+            ->subject('[Shahba] Commande Arrivée !')
+            //->text('Sending emails is fun again!')
+            ->html('<p>Bonjour cher(e) Mr/Mme '.$client->getNom().' '.$client->getPrenom().'</p><br>
+                   <p>Votre Livraison est Livrée .</p><br>
+                   <p>Merci pour Votre Confiance !!</p>');
+
+        $mailer->send($email);
+
+
+        $em->flush();
+
+        return $this->redirectToRoute('backlivraison',[
+        'livraisons'=>$livraison
+        ]);
+    }
+
 
 }
