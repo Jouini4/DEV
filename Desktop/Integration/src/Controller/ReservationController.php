@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\User;
 use App\Entity\Evenement;
 use App\Entity\Reservation;
 use Knp\Component\Pager\PaginatorInterface;
@@ -85,6 +85,7 @@ class ReservationController extends Controller
      * @Route("/listreser", name="listReservation")
      */
     public function listReservation(Request $request,PaginatorInterface $paginator){
+
         $AlllistReservation=$this->getDoctrine()->getRepository(Reservation::class)->findAll();
         // Paginate the results of the query
         $listReservation= $paginator->paginate(
@@ -96,7 +97,9 @@ class ReservationController extends Controller
             3
         );
         return $this->render('reservation/listReser.html.twig',[
-            'controller_name' => 'ReservationController', 'reservations'=>$listReservation]);
+            'controller_name' => 'ReservationController', 'reservations'=>$listReservation]
+
+    );
 
     }
 
@@ -106,13 +109,13 @@ class ReservationController extends Controller
      * @Route("/approuverReservation/{id}",name="approuverReservation")
      */
     public function approuverReservation($id,\Swift_Mailer $mailer)
-    {
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
         $em= $this->getDoctrine()->getManager();
         $reservation=$em->getRepository( Reservation::class)->find($id);
         $reservation->setApprouve(1);
         $message = (new \Swift_Message('Validation Réservation'))
             ->setFrom('jouini.mohamednourelhak@esprit.tn')
-            ->setTo('jouini.mohamednourelhak@gmail.com')
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
                     'reservation/confirmation_mail.html.twig'
@@ -135,7 +138,8 @@ class ReservationController extends Controller
         $listReservation=$this->getDoctrine()->getRepository(Reservation::class)->findAll();
         //dd($listClassroom);
         return $this->render('reservation/readfront.html.twig', [
-            'controller_name' => 'ReservationController','reservation'=>$listReservation
+            'controller_name' => 'ReservationController','reservation'=>$listReservation,
+
         ]);
     }
 
