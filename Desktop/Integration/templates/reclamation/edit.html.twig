@@ -1,8 +1,10 @@
-<!DOCTYPE html>
+{% extends 'back.base.html.twig' %}
+{% block body %}
+    <div style="width:600px; margin:0 auto;">
 
 <title>Edit Reclamation</title>
 
-{% block body %}
+
     <h1>Edit Reclamation</h1>
 
     {{ include('reclamation/_form.html.twig', {'button_label': 'Update'}) }}
@@ -10,4 +12,5 @@
     <a href="{{ path('reclamation_index') }}">back to list</a>
 
     {{ include('reclamation/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

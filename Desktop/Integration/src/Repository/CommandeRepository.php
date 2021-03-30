@@ -52,7 +52,7 @@ class CommandeRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT u.id,c.username,
+            'SELECT u.id,u.username,
             count(co.REF) as Totalcommandes
             FROM App\Entity\Commande co, App\Entity\User u 
             WHERE co.user=u.id

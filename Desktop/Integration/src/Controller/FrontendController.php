@@ -13,6 +13,7 @@ use App\Form\LivraisonType;
 use App\Form\ReclamationType;
 use App\Repository\AstuceRepository;
 use App\Repository\ProduitRepository;
+use App\Repository\VideoRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Stripe\Checkout\Session;
@@ -195,13 +196,12 @@ class FrontendController extends AbstractController
     /**
      * @Route("/blog", name="blog")
      */
-    public function Blog(): Response
+    public function Blog(VideoRepository $videoRepository): Response
     {
-        return $this->render('frontend/Blog.html.twig', [
-
+        return $this->render('frontend/blog.html.twig', [
+            'videos' => $videoRepository->findAll()
         ]);
     }
-
     /**
      * @Route("/connexion", name="connexion")
      */

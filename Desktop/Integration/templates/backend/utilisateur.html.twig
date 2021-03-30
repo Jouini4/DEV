@@ -5,7 +5,9 @@
 {% block body %}
 
     <div style="width:800px; margin:0 auto;">
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+
     <center><input class="form-control" type="text" id="search" aria-describedby="basic-addon2" placeholder="CHERCHER utilisateur..."></center>
     <h1>liste des utilisateurs</h1>
 
@@ -54,14 +56,14 @@
                     });
                     function search_table(value){
                         $('#tableac tbody tr').each(function(){
-                            var found = 'false';
+                            var found = 0;
                             $(this).each(function(){
                                 if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
                                 {
-                                    found = 'true';
+                                    found = 1;
                                 }
                             });
-                            if(found == 'true')
+                            if(found === 1)
                             {
                                 $(this).show();
 

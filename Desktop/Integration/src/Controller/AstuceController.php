@@ -4,16 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Astuce;
 use App\Entity\Commentaire;
-use App\Entity\s;
+
 use App\Form\AstuceType;
 use App\Form\CommentaireType;
 use App\Repository\AstuceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonRespImageonse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use GuzzleHttp\Psr7\UploadedFile;
+
 
 /**
  * @Route("/astuce")
