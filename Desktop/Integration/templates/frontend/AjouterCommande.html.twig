@@ -1,0 +1,203 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Commande</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Acceuil</a>
+                            <span>Commande</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                </div>
+            </div>
+            <div class="checkout__form">
+                <h4>Détails de la Commande</h4>
+
+                {{ form_start(form,{attr: {novalidate: 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    {{ form_row(form.nom,{'attr': {'class': 'form-control'}}) }}
+
+                                </div>
+                            </div>
+                            <div class="checkout__input">
+                                {{ form_row(form.prenom,{'attr': {'class': 'form-control'}}) }}
+
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+
+                                    {{ form_row(form.adresse,{'attr': {'class': 'form-control','value':user.useraddress } }) }}
+                        </div>
+                        <div class="checkout__input">
+                                     {{ form_row(form.descriptionAdresse,{'attr': {'class': 'form-control'}}) }}
+
+                        </div>
+                        <div class="checkout__input">
+                                {# input autocomplete #}
+                            {{ form_row(form.gouvernorat,{'attr': {'class': 'form-control'}}) }}
+                            {# <div id="error">
+                                {% if errors is defined %}
+
+                                    {% for error in errors %}
+                                        {% if error.propertyPath == "gouvernorat" %}
+                                            {{ error.message }}
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                {% endif %}
+                            </div> #}
+                        </div>
+
+                        <div class="checkout__input">
+
+                            {{ form_row(form.codePostal,{'attr': {'class': 'form-group form-control'}}) }}
+                          {#   <div id="error">
+                                {% if errors is defined %}
+
+                                    {% for error in errors %}
+                                        {% if error.propertyPath == "codePostal" %}
+                                            {{ error.message }}
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                {% endif %}
+                            </div>#}
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+
+                                    {{ form_row(form.numeroTelephone,{'attr': {'class': 'form-control','value':user.userphone}}) }}
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Adresse mail<span></span></p>
+                                    <input id="email" name="email" type="text" value= {{ user.email }} readonly>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>Votre Commande</h4>
+                            <div class="checkout__order__products">Produits : </div>
+                            {% for panierd in panierD %}
+                            <div class="checkout__order__products"> {{ panierd.produit.nomProduit }} <div class="checkout__order__total">X {{ panierd.quantite }}<span>{{ panierd.produit.Prix * panierd.quantite }}</span></div></div>
+                            <!--      <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div> -->
+
+                            <div class="checkout__input__checkbox">
+
+                            </div>
+                            {% endfor %}
+                            <div class="checkout__order__total">Total <span>{{ total }}</span></div>
+                            {{ form_row(form.Payez,{'attr': {'class': 'site-btn' } }) }}
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+                {#
+                <!--
+                <form action="{{ path ('Addcommande') }}" method="post">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Prénom<span>*</span></p>
+                                        <input id="prenom" name="prenom" type="text" value= {{ client.prenom }} readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Nom<span>*</span></p>
+                                        <input id="nom" name="nom" type="text" value={{ client.nom }} readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkout__input">
+                                <p>L'Adresse<span>*</span></p>
+                                <input id="adresse" name="adresse" type="text" placeholder="Rue" class="checkout__input__add" value="{{ client.adresse }}" >
+                                <input id="description" name="description" type="text" placeholder="Appartement,Maison,...">
+                            </div>
+                            <div class="checkout__input">
+                                <p>Gouvernorat<span>*</span></p>
+                                <input id="gouvernorat" name="gouvernorat" type="text" value={{ client.gouvernorat }} >
+                            </div>
+
+                            <div class="checkout__input">
+                                <p>Code Postal<span>*</span></p>
+                                <input id="code_postal" name="code_postal" type="text" value={{ client.code_postal }} >
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Numéro de téléphone<span>*</span></p>
+                                        <input id="numero_telephone" name="numero_telephone" type="text" value={{ client.numero_telephone }} >
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Adresse mail<span>*</span></p>
+                                        <input id="email" name="email" type="text" value={{ client.email }} readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="checkout__order">
+                                <h4>Votre Commande</h4>
+                                <div class="checkout__order__products">Produits <span>Total</span></div>
+                                <ul>
+                                    <li><span>$75.99</span></li>
+                                    <li><span>$151.99</span></li>
+                                    <li><span>$53.99</span></li>
+                                </ul>
+                                <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>
+                                <div class="checkout__order__total">Total <span>{{ total }}</span></div>
+                                <div class="checkout__input__checkbox">
+
+                                </div>
+                                    <button type="submit" class="site-btn">Payez</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form> -->
+                #}
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+{% endblock %}

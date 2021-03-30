@@ -1,0 +1,102 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+    <div class="bg-light p-3">
+        <h2>VOTRE PANIER</h2>
+    </div>
+    {% if panierD | length > 0 %}
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produits</th>
+                <th></th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th></th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for panierd in panierD %}
+                <tr>
+                    <td><img src="{{ asset('uploads/' ~ panierd.produit.image~'') }}" width="280" height="200" > </td>
+                    <td>{{ panierd.produit.NomProduit }}</td>
+                    <td><p class="price with-discount">{{ panierd.produit.Prix }} DT</p></td>
+                    <td>
+                        <div class="d-inline-block">
+                            <input class="form-control" name="{{ panierd.produit.id }}" id="{{ panierd.produit.id }}" type="text" value="{{ panierd.quantite }}">
+                            <a name="{{ panierd.produit.id }}" href="_blank" class="primary-btn cart-btn cart-btn-right">
+                                <span class="icon_loading"></span></a>
+                            <script src="{{ asset ('js/jquery-3.3.1.min.js') }}"></script>
+
+                            <script>
+                                $(document).ready(function () {
+                                    let qte = document.getElementById("{{ panierd.produit.id }}")
+                                    document
+                                        .querySelector(".d-inline-block a[name='{{ panierd.produit.id }}']")
+                                        .setAttribute(
+                                            "href",
+                                            "http://127.0.0.1:8000/updatePanier/{{ panierd.produit.id }}/"+qte.value
+                                        );
+                                    $("#{{ panierd.produit.id }}").change(function () {
+                                        document
+                                            .querySelector(".d-inline-block a[name='{{ panierd.produit.id }}']")
+                                            .setAttribute(
+                                                "href",
+                                                "http://127.0.0.1:8000/updatePanier/{{ panierd.produit.id }}/"+qte.value
+                                            );
+                                    })
+                                })
+                            </script>
+                        </div>
+
+                    </td>
+
+                    <td><p class="price with-discount">{{ panierd.produit.Prix * panierd.quantite }} DT</p></td>
+                    <td>
+                        <a href="{{ path('supprimerPanier', {'id': panierd.produit.id}) }}" class="btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <!-- <td colspan="3" class="text-right">Total :</td>
+        <td><p class="price with-discount">{{ total }} DT</p></td>-->
+
+                <td><a href="{{ path('afficherProduit')}}" class="primary-btn cart-btn cart-btn-left">
+                        <span class=""></span>Continuer à shopper</a></td>
+                <td></td>
+                <td></td>
+
+                <td><a href="{{ path('afficherPanier')}}" class="primary-btn cart-btn cart-btn-right">
+                        <span class="icon_loading"></span>Update panier</a></td>
+
+                <br>
+
+            </tfoot>
+
+        </table>
+
+        <div class="shoping__checkout">
+            <h5>TOTAL</h5>
+            <ul>
+                <li>Total <span><p class="price with-discount">{{ total }} DT</p></span></li>
+            </ul>
+            <a href="{{ path('Addcommande') }}" class="primary-btn">Valider votre commande</a>
+        </div>
+
+
+    {% else %}
+        <p> Surprise, c'est vide!</p>
+
+    {% endif %}
+
+{% endblock %}
+

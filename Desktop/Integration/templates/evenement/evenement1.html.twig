@@ -1,0 +1,185 @@
+{% extends 'front.base.html.twig' %}
+
+
+{% block body %}
+    <head>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+
+    </head>
+    <body>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+    </body>
+
+<div id="bigContainer" style="width:800px; margin:0 auto;">
+    <!--
+
+    <div class="nk-post-img">
+        <img class="product__details__pic__item--large" src=" {{ asset('uploads/' ~ evenement.image) }}"   >
+    </div>
+    <div class="nk-gap-1"></div>
+    <h1 class="nk-post-title h4"> {{evenement.nom_event}}</h1>
+    <div class="nk-post-by">
+
+    <div class="nk-post-categories">
+
+        <span class="bg-main-1"> Adresse : {{ evenement.lieu_event }} </span>
+        <br>
+
+        <span class="bg-main-2"> Prix : {{ evenement.prix_event }} DT</span>
+        <br>
+
+        <span class="bg-main-2">{{ evenement.nbr_place }} Places Disponibles</span>
+        <br>
+
+        <span class="bg-main-2"> Date  : {{ evenement.date | date('d/m/y') }} </span>
+
+
+    </div>
+
+    <div class="nk-gap"></div>
+    <p>  {{ evenement.description_event }}</p>
+</div>
+    <form  method="post" action="{{ url('reserverEvent',{'id':evenement.id})}}" class="nk-form" novalidate="novalidate">
+        <div class="row sm-gap vertical-gap">
+            <div class="col-md-4">
+                <input type="number" class="form-control required" id="nbrplace " name="nbrplace" placeholder="Nombre de tickets">
+                <script>
+                    let number = document.getElementById("nbrplace");
+                    if (number > {{ evenement.nbr_place }}){
+                        document.getElementById("controle").innerHTML= "Nombre de participant >"
+                        console.log('number rrrrrrrrrrrrrrrrr :', number);
+                    }
+                </script>
+
+                <p id="controle"> </p>
+            </div>
+
+        </div>
+
+
+
+
+        <button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Reserver</button>
+    </form>
+    <div id='map' style='width: 700px; height: 600px;'></div>
+    -->
+    <section class="product-details spad">
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                 src="{{ asset('uploads/' ~ evenement.image) }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{evenement.nom_event}}</h3>
+                        <div class="product__details__price"><p class="price with-discount"> Prix : {{ evenement.prix_event }} DT </p></div>
+                        <div class="product__details__price"><p>Adresse : {{ evenement.lieu_event }}</p></div>
+                        <div class="product__details__price"><p>Date  : {{ evenement.date | date('d/m/y') }} </p></div>
+                        <div class="product__details__price"><p>{{ evenement.nbr_place }} Places Disponibles</p></div>
+                        <div class="product__details__price"><p>{{ evenement.description_event }}</p></div>
+                        <form  method="post" action="{{ url('reserverEvent',{'id':evenement.id})}}" class="nk-form" novalidate="novalidate">
+                            <div class="row sm-gap vertical-gap">
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control required" id="nbrplace " name="nbrplace" placeholder="Nombre de tickets">
+                                    <script>
+                                        let number = document.getElementById("nbrplace");
+                                        if (number > {{ evenement.nbr_place }}){
+                                            document.getElementById("controle").innerHTML= "Nombre de participant >"
+                                            console.log('number rrrrrrrrrrrrrrrrr :', number);
+                                        }
+                                    </script>
+
+                                    <p id="controle"> </p>
+                                </div>
+                            </div>
+                            <button class="btn btn-success">Reserver</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+    </section>
+    <div id='map' style='width: 700px; height: 600px;'></div>
+    <script>
+        const accessToken = 'pk.eyJ1IjoibW9oYW1lZG5vdXJlbGhhayIsImEiOiJja210aW41cmgwcnd2MnhwYjV0a3IwNmF1In0.Wu9F6YlC7TsBtpowyJ1WTg'
+        mapboxgl.accessToken = accessToken;
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v8',
+
+
+        });
+        var nav = new mapboxgl.NavigationControl({
+            showCompass:true,
+            showZoom:true,
+            visualizePitch:true
+        });
+        map.addControl(nav, 'bottom-right');
+        map.addControl(new mapboxgl.FullscreenControl({container: document.querySelector('bigContainer')}));
+
+
+        const geoLocation = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        })
+        map.addControl(geoLocation);
+
+        /**
+         * Deal with markers
+         */
+
+        var marker = new mapboxgl.Marker({
+            color: "#ff0000",
+            draggable: false
+        }).setLngLat([{{ evenement.latitude }}, {{ evenement.longitude }}])
+            .addTo(map);
+
+        /**
+         *  Deal with directions
+         */
+
+        var mDirections = new MapboxDirections({
+            accessToken: accessToken,
+            unit: 'metric',
+            profile: 'mapbox/driving',
+            interactive: false,
+
+        });
+
+        this.map.addControl(mDirections,'top-left');
+
+        geoLocation.on('geolocate', ()=> {
+            //Get the updated user location, this returns a javascript object.
+            var userlocation = geoLocation._lastKnownPosition;
+
+            //Your work here - Get coordinates like so
+            var lat = userlocation.coords.latitude;
+            var lng = userlocation.coords.longitude;
+
+            this.mDirections.setOrigin([lng,lat])
+            this.mDirections.setDestination([{{ evenement.latitude }}, {{ evenement.longitude }}])
+            map.zoom(13)
+        });
+
+
+        map.on('load', function () {
+            geoLocation.trigger();
+        });
+
+    </script>
+
+
+    <a href="{{ path("readfront") }}" ><button class="btn btn-warning">back to list evenements</button></a>
+</div>
+
+{% endblock %}
