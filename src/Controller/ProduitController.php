@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitControllerType;
+use App\Repository\ProduitRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonRespImageonse;
 
@@ -153,5 +156,157 @@ class ProduitController extends Controller
 
         }
     }
+
+
+    /**
+     * @Route("/afficherDescription/{id}", name="afficherDescription")
+     */
+   public function afficherDescription($id)
+    {
+        $Produit=$this->getDoctrine()->getRepository(Produit::class)->find($id);
+        return $this->render('frontend/ProduitsDetails.html.twig', [
+            'controller_name' => 'ProduitController','produits'=>$Produit
+        ]);
+    }
+
+    /**
+     * @Route("/afficherPanier", name="afficherPanier")
+     */
+    public function afficherPanier(SessionInterface $session, ProduitRepository $produitRepository )
+    {
+        $panier = $session->get('panier', []);
+        $panierwithData = [];
+        foreach ($panier as $id => $quantite){
+            $panierwithData[] = [
+                'produit' => $produitRepository->find($id),
+                'quantite' => $quantite
+            ];
+        }
+        $total = 0;
+        foreach ($panierwithData as $panierd) {
+            $totalPanier = $panierd['produit']->getPrix() * $panierd['quantite'];
+            $total += $totalPanier;
+
+        }
+
+        return $this->render('frontend/Panier.html.twig',[
+            'panierD' => $panierwithData,
+            'total' => $total
+        ]);
+        
+    }
+
+    /**
+     * @Route("/ajouterPanier{id}", name="ajouterPanier")
+     */
+    public function ajouterPanier($id, SessionInterface $session){
+        $panier = $session->get('panier',[]);
+        if(!empty($panier[$id])){
+            $panier[$id]++;
+        }
+        else{
+            $panier[$id] = 1;
+        }
+        $session->set('panier', $panier);
+        return $this->redirectToRoute("afficherProduit");
+
+    }
+    /**
+     * @Route("/supprimerPanier{id}", name="supprimerPanier")
+     */
+    public function supprimerPanier($id, SessionInterface $session){
+        $panier = $session->get('panier',[]);
+        if(!empty($panier[$id])){
+            unset($panier[$id]);
+        }
+        $session->set('panier', $panier);
+        return $this->redirectToRoute("afficherPanier");
+    }
+
+
+    /**
+     * @Route("/updatePanier/{idP}/{qte}", name="updatePanier")
+     */
+    public function updatePanier(SessionInterface $session, ProduitRepository $produitRepository,$idP,$qte)
+    {
+        $panier = $session->get('panier');
+        dump($panier);
+        $panier[$idP]=intval($qte);
+        dump($panier);
+        $session->set('panier', $panier);
+        $panierwithData = [];
+        foreach ($panier as $id => $quantite){
+            if($id == $idP){
+                $panierwithData[] = [
+                    'produit' => $produitRepository->find($id),
+                    'quantite' => $qte
+                ];
+            }else{
+                $panierwithData[] = [
+                    'produit' => $produitRepository->find($id),
+                    'quantite' => $quantite
+                ];
+            }
+
+
+        }
+        $total = 0;
+        foreach ($panierwithData as $panierd) {
+            if($panierd['produit']->getId()==$idP)
+                $panierd['quantite']=$qte;
+
+            $totalPanier = $panierd['produit']->getPrix() * $panierd['quantite'];
+            $total += $totalPanier;
+        }
+
+        return $this->render('frontend/Panier.html.twig',[
+            'panierD' => $panierwithData,
+            'total' => $total
+        ]);
+    }
+
+
+
+    /**
+     * @Route ("/back/produitstat", name="produitstat")
+     */
+    /* public function produitstat(): Response
+     {
+         $em=$this->getDoctrine()->getManager();
+         $data=$em->getRepository(Produit::class)->huile();
+         $d =array(['Categorie','Nombre Total des produits'],
+             );
+         foreach ($data as $res)
+         {
+             array_push($d,[$res['categorie'],$res['nombre de produit']]);
+         }
+
+         $chart = new ColumnChart();
+         $chart->getData()->setArrayToDataTable($d);
+         $chart->getOptions()->getChart()->setTitle('Nombre de produit par categorie');
+         $chart->getOptions()
+               ->setBars('vertical')
+             ->setHeight(400)
+             ->setWidth(900)
+             ->setColors(['#7570b3','#d95f02','#7570b3'])
+             ->getVAxis()
+             ->setFormat('decimal');
+         return $this->render('backend/statproduit.html.twig',[
+             'chart'=>$chart
+         ]);
+         }*/
+    /**
+     * @Route("/rechercheP", name="rechercheP")
+     */
+    /*  public function rechercheParCategorie(Request $request){
+          $data=$request->get('recherche');
+          $listProduits=$this->getDoctrine()
+              ->getRepository(Produit::class)
+              ->rechercheParCategorie($data);
+          return $this->render('frontend/produit.html.twig',['produits'=>$listProduits]);
+      }*/
+
+
+
 
 }

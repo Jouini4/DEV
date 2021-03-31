@@ -1,8 +1,8 @@
 {% extends 'back.base.html.twig' %}
 {% block body %}
-
+{#border="2"width="100%"#}
     <div style="width:800px; margin:0 auto;">
-    <table border="1"width="50%">
+    <table class="table" >
         <thead>
         <tr>
             <th>Id</th>
@@ -14,7 +14,7 @@
 
         </tr>
         </thead>
-        <tbody>
+        <tbody >
         {% for produit in produits %}
         <tr>
             <td>{{ produit.id }}</td>
@@ -22,22 +22,44 @@
             <td>{{ produit.Categorie.NomCategorie }}</td>
             <td>{{ produit.Description }}</td>
             <td>{{ produit.Prix }}</td>
-            <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ produit.image~'') }}" width="20px" height="30px"></td>
+            <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ produit.image~'') }}" width="70px" height="70px"></td>
+
           {#   <td img src ="{{ asset('uploads/'~ produit.image) }}">{{ produit.image}}</td>#}
-{#            <td><img src ="{{ asset('uploads/'~ produit.image~'') }}" width="100" height="100">#}
+          {#  <td><img src ="{{ asset('uploads/'~ produit.image~'') }}" width="100" height="100"></td>#}
+
+            <td><a href="{{ path('supprimerProduit', {'id': produit.id}) }}" ><form method="post" action="{{ path('supprimerProduit', {'id': produit.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément?');">
+                    <input type="hidden" name="_method" value="supprimerProduit">
+                    <input type="hidden" name="_token" value="{{ csrf_token('supprimerProduit' ~ produit.id) }}">
+                    <button type="button" class="btn btn-labeled btn-danger" >
+                    <span class="btn-label"><i class="fa fa-trash"></i></span>Supprimer</button>
+                </form>
+                </a>
             </td>
-            <td><form method="post" action="{{ path('supprimerProduit', {'id': produit.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément?');">
+
+            <td><a href="{{ path('modifierProduit', {'id': produit.id}) }}"><form method="post" action="{{ path('modifierProduit', {'id': produit.id}) }}" onsubmit="return ('cet élément a été bien modifié');">
+                    <input type="hidden" name="_method" value="modifierProduit">
+                    <input type="hidden" name="_token" value="{{ csrf_token('modifierProduit' ~ produit.id) }}">
+                    <button type="button" class="btn btn-primary" >
+                    <span class="btn-label"><i class="fa fa-retweet"></i></span>Modifier</button>
+                </form>
+                </a>
+            </td>
+
+
+           {#  <td><form method="post" action="{{ path('supprimerProduit', {'id': produit.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément?');">
                     <input type="hidden" name="_method" value="supprimerProduit">
                     <input type="hidden" name="_token" value="{{ csrf_token('supprimerProduit' ~ produit.id) }}">
                     <button class="btn btn-danger"><input type="button" value="Supprimer"></button>
                 </form>
-            </td>
-            <td><form method="post" action="{{ path('modifierProduit', {'id': produit.id}) }}" onsubmit="return ('cet élément a été bien modifié');">
+            </td>#}
+            {#  <td><form method="post" action="{{ path('modifierProduit', {'id': produit.id}) }}" onsubmit="return ('cet élément a été bien modifié');">
                     <input type="hidden" name="_method" value="modifierProduit">
                     <input type="hidden" name="_token" value="{{ csrf_token('modifierProduit' ~ produit.id) }}">
                     <button class="btn btn-primary"><input type="button" value="Modifier"></button>
                 </form>
-            </td>
+            </td>#}
+
+
             </tr>
 
             {% endfor %}

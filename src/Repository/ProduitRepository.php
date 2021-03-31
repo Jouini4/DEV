@@ -47,4 +47,24 @@ class ProduitRepository extends ServiceEntityRepository
         ;
     }
     */
+  /*  public function rechercheParCategorie($data){
+        return $this->createQueryBuilder('e')
+        ->where('e.Nom_Produit LIKE ?1')
+            ->setParameter('1','%'.$data.'%')
+            ->getQuery()
+            ->getResult();
+    }*/
+    public function huile()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.id,c.nom_categorie
+            count (p.id) as huileProduit
+            FROM App\Entity\Panier p
+            WHERE p.categorie_id=c.id
+            GROUP BY c.id
+            ORDER BY count(p.id) DESC'
+
+        );
+    }
 }

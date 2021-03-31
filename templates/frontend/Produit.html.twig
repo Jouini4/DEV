@@ -16,8 +16,32 @@
         </div>
 
     </section>
+<br>
+<div style="width:900px; margin:0 auto;">
+<section class="hero">
+
+    <div class="container">
+
+        <div class="col-lg-9">
+            <div class="hero__search">
+                <div class="hero__search__form">
+                    <form action="#">
+                        <div class="hero__search__categories">
+                            All Categories
+                            <span class="arrow_carrot-down"></span>
+                          </div>
+                        <input type="text" placeholder="Rechercher">
+                        <button type="submit" class="site-btn">RECHERCHER</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
 
 
+<div style="width:1000px; margin:0 auto;">
     <section class="hero">
         <div class="container">
             <div class="row">
@@ -39,88 +63,72 @@
         </div>
     </section>
 
-<div style="width:800px; margin:0 auto;">
 
-
-    <section class="shop-home-list section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    {% for produit in produits  | slice(0,3) %}
-                        <div class="single-list">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="list-image overlay">
-                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
-                                        <a href="" class="buy"><i class=""></i></a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12 no-padding">
-                                    <div class="content">
-                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
-                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <!-- End Single List  -->
-
-                    <!-- Start Single List  -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-
-                    {% for produit in produits  | slice(3,3) %}
-                        <div class="single-list">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="list-image overlay">
-                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
-                                        <a href="" class="buy"><i class=""></i></a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12 no-padding">
-                                    <div class="content">
-                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
-                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    {% for produit in produits  | slice(6,3) %}
-                        <div class="single-list">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="list-image overlay">
-                                        <img src="{{ asset('uploads/' ~ produit.image~'') }}" alt="#">
-                                        <a href="" class="buy"><i class=""></i></a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12 no-padding">
-                                    <div class="content">
-                                        <h4 class="title"><a href="#">{{ produit.NomProduit }}</a></h4>
-                                        <p class="price with-discount">{{ produit.Prix }} DT </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        {% for produit in produits  | slice(0,3) %}
+        <div class="product__item">
+            <div class="product__item__pic set-bg" ><a href="{{ path('afficherDescription',{'id': produit.id}) }}">
+                    <img src="{{ asset('uploads/' ~ produit.image~'') }}"width="380" height="350" >
+                </a>
+                <ul class="product__item__pic__hover">
+                    <li><a class="buy" href="{{ path('ajouterPanier', {'id': produit.id}) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                </ul>
+            </div>
+            <div class="product__item__text">
+                <h4>{{ produit.NomProduit }}</h4>
+                <h5><p class="price with-discount">{{ produit.Prix }} DT </p></h5>
             </div>
         </div>
-    </section>
-    <div class="navigation">
-        {{ knp_pagination_render(produits) }}
+        {% endfor %}
     </div>
 
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        {% for produit in produits  | slice(3,3) %}
+            <div class="product__item">
+                <div class="product__item__pic set-bg" ><a href="{{ path('afficherDescription',{'id': produit.id}) }}">
+                        <img src="{{ asset('uploads/' ~ produit.image~'') }}"width="380" height="350" >
+                    </a>
+                    <ul class="product__item__pic__hover">
+                        <li><a class="buy" href="{{ path('ajouterPanier', {'id': produit.id}) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h4>{{ produit.NomProduit }}</h4>
+                    <h5><p class="price with-discount">{{ produit.Prix }} DT </p></h5>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        {% for produit in produits  | slice(6,3) %}
+            <div class="product__item">
+                <div class="product__item__pic set-bg" ><a href="{{ path('afficherDescription',{'id': produit.id}) }}">
+                        <img src="{{ asset('uploads/' ~ produit.image~'') }}"width="380" height="350" >
+                        </a>
+
+
+                    <ul class="product__item__pic__hover">
+                        <li><a class="buy" href="{{ path('ajouterPanier', {'id': produit.id}) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h4>{{ produit.NomProduit }}</h4>
+                    <h5><p class="price with-discount">{{ produit.Prix }} DT </p></h5>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+<div class="mt-4">
+
+        {{ knp_pagination_render(produits) }}
+
+</div>
 {% endblock %}
 
 
