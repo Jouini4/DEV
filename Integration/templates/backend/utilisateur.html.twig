@@ -1,0 +1,94 @@
+{% extends 'back.base.html.twig' %}
+
+{% block title %}liste des utilisateurs{% endblock %}
+
+{% block body %}
+
+    <div style="width:800px; margin:0 auto;">
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+
+    <center><input class="form-control" type="text" id="search" aria-describedby="basic-addon2" placeholder="CHERCHER utilisateur..."></center>
+    <h1>liste des utilisateurs</h1>
+
+    <table class="table" id="tableac">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Password</th>
+            <th>username</th>
+            <th>useraddress</th>
+            <th>userphone</th>
+            <th>usercin</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {# On boucle sur les rôles #}
+                    {% for role in user.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.useraddress }}</td>
+                <td>{{ user.userphone }}</td>
+                <td>{{ user.usercin }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+            <script>
+                $(document).ready(function(){
+                    $('#search').keyup(function(){
+                        search_table($(this).val());
+                    });
+                    function search_table(value){
+                        $('#tableac tbody tr').each(function(){
+                            var found = 0;
+                            $(this).each(function(){
+                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                {
+                                    found = 1;
+                                }
+                            });
+                            if(found === 1)
+                            {
+                                $(this).show();
+
+                            }
+                            else
+                            {
+                                $(this).hide();
+
+                            }
+                        });
+                    }
+                });
+            </script>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(users) }}
+    </div>
+
+
+    <a href="{{ path('user_new') }}">Create new</a>
+{% endblock %}

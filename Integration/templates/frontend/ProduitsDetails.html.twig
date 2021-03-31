@@ -1,0 +1,49 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+
+    <!-- <h1>{{ produits.NomProduit }}</h1>
+    <img src="{{ asset('uploads/' ~ produits.image~'') }}" >
+    <p class="price with-discount">{{ produits.Prix }} DT </p>
+    <h2>{{ produits.Description }}</h2>-->
+
+
+
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                 src="{{ asset('uploads/' ~ produits.image~'') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ produits.NomProduit }}</h3>
+                        <div class="product__details__price"><p class="price with-discount">{{ produits.Prix }} DT </p></div>
+                        <p>{{ produits.Description }}</p>
+                        <div class="product__details__quantity">
+                            <div class="quantite">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ path('ajouterPanier', {'id': produits.id}) }}"><i class="primary-btn">AJOUTER AU PANIER</i></a>
+                        <ul>
+                            <li><b>Availability</b> <span>In Stock</span></li>
+                            <li><b>Weight</b> <span>0.5 kg</span></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+

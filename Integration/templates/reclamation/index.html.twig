@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<title>Reclamation index</title>
+
+{% block body %}
+    <h1>Reclamation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idrc</th>
+                <th>Numcmd</th>
+
+                <th>Nomc</th>
+                <th>Pnomc</th>
+                <th>Mailc</th>
+                <th>Numclient</th>
+
+
+                <th>Obrc</th>
+                <th>Desrec</th>
+                <th>Screenshot</th>
+
+                <th>actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.idrc }}</td>
+                <td>{{ reclamation.numcmd }}</td>
+
+                <td>{{ reclamation.nomc }}</td>
+                <td>{{ reclamation.pnomc }}</td>
+                <td>{{ reclamation.mailc }}</td>
+                <td>{{ reclamation.numclient }}</td>
+
+
+                <td>{{ reclamation.obrc }}</td>
+                <td>{{ reclamation.desrec }}</td>
+                <td>{{ reclamation.screenshot }}</td>
+
+                <td>
+                    <a href="{{ path('reclamation_show', {'idrc': reclamation.idrc}) }}">show</a>
+                    <a href="{{ path('reclamation_edit', {'idrc': reclamation.idrc}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('reclamation_new') }}">Create new</a>
+{% endblock %}

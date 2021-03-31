@@ -1,0 +1,42 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+    <section class="breadcrumb-section set-bg" data-setbg="img/1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2 style="color:#eafaeb" ;>LISTE DES Réservations</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <div style="width:800px; margin:0 auto;">
+
+        <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+            <tr role="row">
+                <th>Event</th>
+                <th>Nombre de place</th>
+                <th>Prix Total</th>
+                <th>Image de l'evenement reservé</th>
+            </tr>
+            <tbody>
+
+            {% for i in reservation %}
+                <tr>
+                    <td>{{ i.id_Event.nom_event }}</td>
+                    <td> {{ i.nbrplace }} </td>
+                    <td>{{ i.id_Event.prix_event * i.nbrplace  }} DT </td>
+                    <td><img  src="{{ asset('uploads/' ~ i.id_Event.image) }} " width="75" height="50"></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+        <a href="{{ path("readfront") }}" ><button class="btn btn-warning">back to list évènements</button></a>
+    </div>
+{% endblock %}

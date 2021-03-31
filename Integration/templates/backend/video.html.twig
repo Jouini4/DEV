@@ -1,0 +1,61 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2 style="color:#c70039 " ;>VIDEO  DIY</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:800px; margin:0 auto;">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>actions</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for video in videos %}
+                <tr>
+                    <td>{{ video.id }}</td>
+                    <td>{{ video.titre }}</td>
+                    <td>{{ video.description }}</td>
+                    <td>
+                        <a href="{{ path('video_show', {'id': video.id}) }}"><button class="btn btn-danger">show</button></a>
+                        <a href="{{ path('video_edit', {'id': video.id}) }}"><button class="btn btn-danger">edit</button></a>
+                    </td>
+
+                    <td>
+
+                        <video controls >
+                            <source align="center" src="{{ asset('uploads/'~video.url) }}" type= "video/mp4" width=500" height="100" alt=""
+                                    type="video/mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </video>
+                    </td>
+
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+
+
+        <a href="{{ path('video_new') }}"><button class="btn btn-danger">Create new</button></a>
+        <a href="{{ path('video_new') }}"><button class="btn btn-danger">edit</button></a>
+    </div>
+{% endblock %}
