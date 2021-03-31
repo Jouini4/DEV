@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
- images_directory: '%kernel.project_dir%/public/uploads'
+    stripe_public_key: pk_test_51IZJ1EKIRZuutEl1j2Y7VROFvkjxwMPMNraWhQ6P1jroDEZRQR2FZaGi84cNDJOYs0VDETvsMKDXOIi306puEO0k00kLSjdILQ
+    stripe_secret_key: sk_test_51IZJ1EKIRZuutEl1maEN8DKdzIwfjxfLEbof9NyFFcEz2PNbi8xScVt2m0Lhq7i4RmKxf96m6xIAmwluqVAul3lQ00DlU2Kr7B
+    images_directory: '%kernel.project_dir%/public/uploads'
 services:
     # default configuration for services in *this* file
     _defaults:

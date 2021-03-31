@@ -1,4 +1,73 @@
 {% extends 'front.base.html.twig' %}
 {% block body %}
-{% endblock %}
 
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2 style="color:#eafaeb" ;>LISTE DES EVENEMENTS</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <div style="width:800px; margin:0 auto;">
+
+
+    <tbody>
+
+    {% for i in evenements %}
+        <tr>
+
+
+
+            <div class="blog-entry align-self-stretch">
+                <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~i.image) }};">
+                </a>
+                <div class="text mt-3">
+                    <div class="meta mb-2">
+
+                        <div class="blog__details__text">
+                            <a href="{{ url('evenement1',{'id':i.id}) }}" >
+                                <img align="center" src="{{ asset('uploads/'~ i.image) }}"  alt="">
+                            </a>
+                            <h3 align="center"><p1>Nom    : </p1>{{ i.nom_event }}</h3>
+                            <p align="center"><p4>Lieu  : </p4>{{ i.lieu_event }}</p>
+                            <p align="center"><p4>Date  : </p4>{{ i.date | date('d/m/y')  }}</p>
+
+
+        <tr><h4 style=" text-align: center"> <a href="{{ url('evenement1',{'id':i.id}) }}" ><button class="btn btn-success"> show </button></a></h4>
+
+        </tr>
+
+
+
+
+
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+
+        </tr>
+
+
+
+    {% endfor %}
+
+    </tbody>
+
+
+    <div class="product__pagination blog__pagination">
+        {{ knp_pagination_render(evenements) }}
+
+    </div>
+    </div>
+{% endblock %}

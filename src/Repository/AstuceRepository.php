@@ -47,4 +47,14 @@ class AstuceRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function rechercheParNom($data){
+        return $this->createQueryBuilder('e') //select e from App\Entity\Student
+        ->where('e.titre LIKE ?1')
+            //->where('e.email LIKE :mail')
+            //->andWhere('e.Nsc = ?2')
+            ->setParameter('1','%'.$data.'%')
+            //->setParameters('2','4')
+            ->getQuery()
+            ->getResult();
+    }
 }

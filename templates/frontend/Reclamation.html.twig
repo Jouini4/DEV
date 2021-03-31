@@ -1,3 +1,20 @@
 {% extends 'front.base.html.twig' %}
 {% block body %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+
+
+    {{ form_start(form) }}
+    {{ form_row(form.nomc) }}
+    {{ form_row(form.pnomc) }}
+    {{ form_row(form.mailc) }}
+    {{ form_row(form.numclient) }}
+    {{ form_row(form.drc) }}
+    {{ form_row(form.obrc) }}
+    {{ form_row(form.desrec) }}
+    {{ form_row(form.screenshot) }}
+    {{ form_end(form) }}
+
+
+
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'front.base.html.twig' %}
+
+
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
+
+    <center>
+    <form id="payment-form">
+        <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+        <button id="submit">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Pay now</span>
+        </button>
+        <p id="card-error" role="alert"></p>
+        <p class="result-message hidden">
+            Votre paiement à été bien effectué ! Merci pour votre confiance
+        </p>
+    </form>
+    </center>
+    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
+    <script src="{{ asset('https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch') }}"></script>
+    <script src="{{ asset('js/client.js') }}" defer></script>
+{% endblock %}
+

@@ -6,9 +6,12 @@ use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @Route("/video")
@@ -31,10 +34,36 @@ class VideoController extends AbstractController
     public function new(Request $request): Response
     {
         $video = new Video();
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
+        $editForm = $this->createForm(VideoType::class, $video);
+        $editForm ->add('src', FileType::class, [
+            'label' => 'Content( video)',
+            'mapped' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024M',
+                    'mimeTypesMessage' => 'Please upload a valid document',
+                ])
+            ],
+        ]);
+        $editForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $srcFile = $editForm->get('src')->getData();
+
+            if ($srcFile) {
+                $originalFilename = pathinfo($srcFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
+                    $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$srcFile->guessExtension();
+
+                try {
+                    $srcFile->move('uploads/' . $video->getUrl(), $newFilename);
+                } catch (FileException $e) {
+                    print $e->getMessage();
+                }
+                $video->setUrl($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($video);
             $entityManager->flush();
@@ -44,7 +73,7 @@ class VideoController extends AbstractController
 
         return $this->render('video/new.html.twig', [
             'video' => $video,
-            'form' => $form->createView(),
+            'form' => $editForm->createView(),
         ]);
     }
 
@@ -61,12 +90,40 @@ class VideoController extends AbstractController
     /**
      * @Route("/{id}/edit", name="video_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Video $video): Response
+    public function edit($id , Request $request, Video $video): Response
     {
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $video = $em->getRepository(Video::class)->find($id);
+        $editForm = $this->createForm(VideoType::class, $video);
+        $editForm ->add('src', FileType::class, [
+            'label' => 'Content( video)',
+            'mapped' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024M',
+                    'mimeTypesMessage' => 'Please upload a valid document',
+                ])
+            ],
+        ]);
+        $editForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        $srcFile = $editForm->get('src')->getData();
+
+            if ($srcFile) {
+                $originalFilename = pathinfo($srcFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$srcFile->guessExtension();
+
+                try {
+                    $srcFile->move('uploads/' . $video->getUrl(), $newFilename);
+                } catch (FileException $e) {
+                    print $e->getMessage();
+                }
+                $video->setUrl($newFilename);
+            }
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('backvideo');
@@ -74,7 +131,7 @@ class VideoController extends AbstractController
 
         return $this->render('video/edit.html.twig', [
             'video' => $video,
-            'form' => $form->createView(),
+            'form' => $editForm->createView(),
         ]);
     }
 

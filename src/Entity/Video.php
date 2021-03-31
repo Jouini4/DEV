@@ -32,6 +32,12 @@ class Video
      */
     private $url;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="videos")
+     */
+    private $userid;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +75,30 @@ class Video
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getAstuceId(): ?Astuce
+    {
+        return $this->Astuce_id;
+    }
+
+    public function setAstuceId(?Astuce $Astuce_id): self
+    {
+        $this->Astuce_id = $Astuce_id;
+
+        return $this;
+    }
+
+    public function getUserid(): ?User
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(?User $userid): self
+    {
+        $this->userid = $userid;
 
         return $this;
     }

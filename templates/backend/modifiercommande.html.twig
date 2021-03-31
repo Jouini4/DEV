@@ -1,0 +1,75 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+    <div class="checkout__form" style="width: 600px;margin: 0 auto;">
+    {{ form_start(form,{attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        <div class="col-lg-8 col-md-6">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                        {{ form_row(form.nom,{'attr': {'readonly' : 'true','class': 'form-control','value':commande.nom } }) }}
+
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                        {{ form_row(form.prenom,{ 'attr': {'readonly' : 'true','class': 'form-control','value':commande.prenom } }) }}
+
+                    </div>
+                </div>
+            </div>
+            <div class="checkout__input">
+
+                {{ form_row(form.adresse,{'attr': {'class': 'form-control','value':commande.adresse } }) }}
+
+                {{ form_row(form.descriptionAdresse,{'attr': {'class': 'form-control','value':commande.descriptionAdresse}}) }}
+
+            </div>
+            <div class="checkout__input">
+                {# auto complet #}
+                {{ form_row(form.gouvernorat,{'attr': {'class': 'form-control','value':commande.gouvernorat}}) }}
+
+            </div>
+
+            <div class="checkout__input">
+
+                {{ form_row(form.codePostal,{'attr': {'class': 'form-control','value':commande.codePostal}}) }}
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+
+                        {{ form_row(form.numeroTelephone,{'attr': {'class': 'form-control','value':commande.numeroTelephone}}) }}
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                        <p>Adresse mail<span></span></p>
+                        <input class="form-control" id="email" name="email" type="text" value= {{ commande.user.email }} readonly>
+                        <div id="error">
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                        {{ form_row(form.Payez,{'label':'Modifier','attr': {'class': 'form-control btn-primary'}}) }}
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {{ form_end(form) }}
+    </div>
+{% endblock %}

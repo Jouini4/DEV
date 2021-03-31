@@ -2,8 +2,24 @@
 
 
 {% block body %}
+
+<!-- http://127.0.0.1:5500/index.html?titre=C%27est+bien&comment=Super+avis&note=4 -->
+<form action="" method="post">
+
+    <div class="stars">
+        <i class="lar la-star" data-value="1"></i><i class="lar la-star" data-value="2"></i><i class="lar la-star" data-value="3"></i><i class="lar la-star" data-value="4"></i><i class="lar la-star" data-value="5"></i>
+    </div>
+    <input type="hidden" name="note" id="note" value="0">
+    <button type="submit">Valider</button>
+</form>
+<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
+
+
+
+
 <div style="width:800px; margin:0 auto;">
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
+
     <center><input type="text" id="search" placeholder="CHERCHER Astuce..."></center>
 
     <div class="container">
@@ -18,63 +34,64 @@
     <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 
 
-            <thead>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>image</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for astuce in astuces %}
             <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>image</th>
-                <th>actions</th>
+                <td>{{ astuce.id }}</td>
+                <td>{{ astuce.titre }}</td>
+                <td>{{ astuce.description }}</td>
+                <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }}" width="200" height="100" ></td>
+                <td>
+                    <a href="{{ path('astuce_show', {'id': astuce.id}) }}"><button class="btn btn-danger">show</button></a>
+                    <a href="{{ path('astuce_edit', {'id': astuce.id}) }}"><button class="btn btn-danger">edit</button></a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for astuce in astuces %}
-                <tr>
-                    <td>{{ astuce.id }}</td>
-                    <td>{{ astuce.titre }}</td>
-                    <td>{{ astuce.description }}</td>
-                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }} " width="200" height="100" ></td>
-                    <td>
-                        <a href="{{ path('astuce_show', {'id': astuce.id}) }}"><button class="btn btn-danger">show</button></a>
-                        <a href="{{ path('astuce_edit', {'id': astuce.id}) }}"><button class="btn btn-danger">edit</button></a>
-                    </td>
-                </tr>
 
 
-                <script>
-                    $(document).ready(function(){
-                        $('#search').keyup(function(){
-                            search_table($(this).val());
-                        });
-                        function search_table(value){
-                            $('#tableac tbody tr').each(function(){
-                                var found = 'false';
-                                $(this).each(function(){
-                                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
-                                    {
-                                        found = 'true';
-                                    }
-                                });
-                                if(found == 'true')
+            <script>
+                $(document).ready(function(){
+                    $('#search').keyup(function(){
+                        search_table($(this).val());
+                    });
+                    function search_table(value){
+                        $('#tableac tbody tr').each(function(){
+                            var found = 0;
+                            $(this).each(function(){
+                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
                                 {
-                                    $(this).show();
-
-                                }
-                                else
-                                {
-                                    $(this).hide();
-
+                                    found = 1;
                                 }
                             });
-                        }
-                    });
-                </script>
-            {% endfor %}
-            </tbody>
+                            if(found === 1)
+                            {
+                                $(this).show();
 
-        </table>
+                            }
+                            else
+                            {
+                                $(this).hide();
+
+                            }
+                        });
+                    }
+                });
+            </script>
+        {% endfor %}
+        </tbody>
+
+    </table>
     <a href="{{ path('astuce_new') }}"><button class="btn btn-danger">Create new</button></a>
     <a href="{{ path('astuce_new') }}"><button class="btn btn-danger">edit</button></a>
+
 
     {% endblock %}
 

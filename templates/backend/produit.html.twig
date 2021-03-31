@@ -1,3 +1,51 @@
 {% extends 'back.base.html.twig' %}
 {% block body %}
+
+    <div style="width:800px; margin:0 auto;">
+        <table border="1"width="50%">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_Produit</th>
+                <th>Catégorie</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Image</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for produit in produits %}
+                <tr>
+                    <td>{{ produit.id }}</td>
+                    <td>{{ produit.NomProduit }}</td>
+                    <td>{{ produit.Categorie.NomCategorie }}</td>
+                    <td>{{ produit.Description }}</td>
+                    <td>{{ produit.Prix }}</td>
+                    <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ produit.image~'') }}" width="20px" height="30px"></td>
+                    {#   <td img src ="{{ asset('uploads/'~ produit.image) }}">{{ produit.image}}</td>#}
+                    {#            <td><img src ="{{ asset('uploads/'~ produit.image~'') }}" width="100" height="100">#}
+                    </td>
+                    <td><form method="post" action="{{ path('supprimerProduit', {'id': produit.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément?');">
+                            <input type="hidden" name="_method" value="supprimerProduit">
+                            <input type="hidden" name="_token" value="{{ csrf_token('supprimerProduit' ~ produit.id) }}">
+                            <button class="btn btn-danger"><input type="button" value="Supprimer"></button>
+                        </form>
+                    </td>
+                    <td><form method="post" action="{{ path('modifierProduit', {'id': produit.id}) }}" onsubmit="return ('cet élément a été bien modifié');">
+                            <input type="hidden" name="_method" value="modifierProduit">
+                            <input type="hidden" name="_token" value="{{ csrf_token('modifierProduit' ~ produit.id) }}">
+                            <button class="btn btn-primary"><input type="button" value="Modifier"></button>
+                        </form>
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+
+        <a href="{{ path('ajouterProduit') }}">Créer un nouveau produit</a>
+        <br>
+        <a href="{{ path('afficherCategorie') }}">Liste des catégories</a>
+    </div>
 {% endblock %}
+

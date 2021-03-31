@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Commentaire;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use FOS\CKEditorBundle\FOSCKEditorBundle;
+
+
+class CommentaireType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('text',CKEditorType::class, [
+        'label' => 'Votre commentaire',
+        'attr' => [
+            'class' => 'form-control']
+        ])
+
+
+         /*   ->add('rgpd', CheckboxType::class, [
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])*/
+            ->add('parentid', HiddenType::class, [
+                'mapped' => false
+            ])
+            ->add('Commentez', SubmitType::class)
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Commentaire::class,
+        ]);
+    }
+}

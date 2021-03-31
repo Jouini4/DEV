@@ -1,0 +1,70 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+    <div style="width:800px; margin:0 auto;">
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <center><input class="form-control" type="text" id="search" aria-describedby="basic-addon2" placeholder="CHERCHER Reservation..."></center>
+        <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <br>
+
+                                <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Nombre de place</th>
+                                    <th>Prix Total</th>
+                                    <th>Image de l'evenement reservé</th>
+                                    <th>State</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for l in reservations %}
+                                    <tr>
+                                        <td>{{ l.id_Event.nom_event }}</td>
+                                        <td> {{ l.nbrplace }} </td>
+                                        <td>{{ l.id_Event.prix_event * l.nbrplace  }} DT </td>
+                                        <td><img  src="{{ asset('uploads/' ~ l.id_Event.image) }} " width="75" height="50"></td>
+
+                                        {% if l.approuve ==1 %}
+                                            <td style="background-color: #44f86e">Approuvée</td>
+                                        {% elseif l.approuve==0 %}
+                                            <td style="background-color:red">En attente</td>
+                                        {% endif %}
+
+                                    </tr>
+                                    <script>
+                                        $(document).ready(function(){
+                                            $('#search').keyup(function(){
+                                                search_table($(this).val());
+                                            });
+                                            function search_table(value){
+                                                $('#tableac tbody tr').each(function(){
+                                                    var found = 'false';
+                                                    $(this).each(function(){
+                                                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                                        {
+                                                            found = 'true';
+                                                        }
+                                                    });
+                                                    if(found == 'true')
+                                                    {
+                                                        $(this).show();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        $(this).hide();
+
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+        <div class="dataTables_paginate paging_simple_numbers">
+            {{ knp_pagination_render(reservations) }}
+        </div>
+                        </div>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'front.base.html.twig' %}
+
+{% block body %}
+    <div style="width:800px; margin:0 auto;">
+            <div class="blog-entry align-self-stretch">
+                <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~astuce.image) }};">
+                </a>
+                <div class="text mt-3">
+                    <div class="meta mb-2">
+                        <div class="blog__details__text">
+                            <h3 class="text-uppercase" align="center">{{ astuce.titre }}</h3>
+                            <img align="center" src="{{ asset('uploads/'~astuce.image) }}" width="1000" height="500" alt="">
+                            <p class="font-italic" style="color: #040505">{{ astuce.description }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="width:800px; margin:0 auto;">
+    <div class="grix xs2 sm3 gutter-0 card">
+        <div class="col-xs2 col-sm3">
+            <h4 class="font-weight-bold">Liste des commentaires</h4>
+            {% for commentaire in astuce.commentaire %}
+                {% if commentaire.parent == null %}
+                    <p style="text-align:left;
+                       color:darkgreen;
+                       background:gainsboro;
+                       clear:both;">Publié le {{commentaire.createdAt|date("d/m/Y H:i") }}</p>
+
+                    <div style="float:left;
+                         width:50%;
+                         color:black;
+                         background:white">{{ commentaire.text |raw}}</div>
+                    {# On affiche les réponses #}
+                    {% for reply in commentaire.replies %}
+                        <p>Réponse publiée par {{reply.nickname}} le {{reply.createdAt|date("d/m/Y H:i") }}</p>
+                        <div>{{commentaire.text|raw}}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="col-xs2 col-sm3" id="ajout-commentaire">
+            <div class="container">
+                <p class="font-weight-bold" >Ajouter un commentaire</p>
+                {{ form(commentForm) }}
+
+    </div>
+    </div>
+
+
+
+
+</div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload = () => {
+            document.querySelector("#astuce_contact_title").value = "{{ astuce.titre|raw }}";
+            // On met un écouteur d'évènements sur tous les boutons répondre
+            document.querySelectorAll("[data-reply]").forEach(element => {
+                element.addEventListener("click", function(){
+                    document.querySelector("#commentaire_parentid").value = this.dataset.id;
+                });
+            });
+        }
+        let caroulix = new Caroulix('#carousel');
+        let modal = new Modal('#modale-contact');
+    </script>
+{% endblock %}
