@@ -1,0 +1,35 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+
+<title>NOS ASTUCES</title>
+
+
+    <h1>NOS ASTUCES</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>image</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for astuce in astuces %}
+            <tr>
+
+                <td>{{ astuce.titre }}</td>
+                <td>{{ astuce.description }}</td>
+                <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ astuce.image) }}" width="75" height="75"></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

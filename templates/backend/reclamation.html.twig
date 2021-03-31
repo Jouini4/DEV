@@ -1,0 +1,75 @@
+{% extends 'back.base.html.twig' %}
+
+{% block body %}
+
+    <h1>Reclamation</h1>
+
+    <table class="table">
+        <thead>
+
+        <tr>
+            <th>Numero commande</th>
+            <th>ID client</th>
+            <th>Nom client</th>
+            <th>Prenom nomc</th>
+            <th>Mail client</th>
+            <th>Numero client</th>
+            <th>Date de commande</th>
+
+            <th>Objet</th>
+            <th>Desription</th>
+            <th>image</th>
+            <th>date de reclamation</th>
+            <th>date de derniere modification</th>
+            <th>type de reclamation</th>
+            <th>action</th>
+
+
+        </tr>
+        </thead>
+
+
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.numcmd }}</td>
+                <td>{{ reclamation.idc }}</td>
+                <td>{{ reclamation.nomc }}</td>
+
+
+                <td>{{ reclamation.pnomc }}</td>
+
+
+                <td>{{ reclamation.mailc }}</td>
+
+
+                <td>{{ reclamation.numclient }}</td>
+
+
+                <td>{{ reclamation.drc |date('Y-m-d') }}</td>
+
+
+
+                <td>{{ reclamation.obrc }}</td>
+
+
+                <td>{{ reclamation.desrec }}</td>
+
+
+
+
+                <td> <img src="{{ asset('uploads/'~reclamation.screenshot~'') }}" width="40px" height="40px"></td>
+                <td>{{ reclamation.createdAt |date('Y-m-d') }}</td>
+                <td>{{ reclamation.updatedAt |date('Y-m-d') }}</td>
+                <td><a href="http://127.0.0.1:8000/back/typereclamation/">type de reclamation</a></td>
+                <td><a  href="{{ path('reclamation_delete',{'id': reclamation.id}) }}">Supprimer</a>
+                    {# #}     <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}">edit</a></td>
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+ <!DOCTYPE html>
+
+<title>Typereclamation</title>
+
+{% block body %}
+    <h1>Typereclamation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id de type reclamation</th>
+                <td>{{ typereclamation.id }}</td>
+            </tr>
+            <tr>
+                <th>Type de reclamation</th>
+                <td>{{ typereclamation.tyrc }}</td>
+            </tr>
+            <tr>
+                <th>Etat de la reclamation</th>
+                <td>{{ typereclamation.etrc }}</td>
+            </tr>
+            <tr>
+                <th>Comrmantaire admin</th>
+                <td>{{ typereclamation.comrc }}</td>
+            </tr>
+            <tr>
+                <th>id de responsable</th>
+                <td>{{ typereclamation.ida }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('typereclamation_index') }}">back to list</a>
+
+    <a href="{{ path('typereclamation_edit', {'id': typereclamation.id}) }}">edit</a>
+
+    {{ include('typereclamation/_delete_form.html.twig') }}
+{% endblock %}

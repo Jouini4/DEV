@@ -1,0 +1,14 @@
+{% extends 'back.base.html.twig' %}
+{% block body %}
+<div style="width:800px; margin:0 auto;">
+<title>New Astuce</title>
+
+
+    <h1>Create new Astuce</h1>
+
+    {{ include('astuce/_form.html.twig') }}
+
+    <a href="{{ path('backastuce') }}">back to list</a>
+</div>
+
+{% endblock %}

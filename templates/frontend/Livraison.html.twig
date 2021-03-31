@@ -1,0 +1,52 @@
+{% extends 'front.base.html.twig' %}
+{% block body %}
+<center><div class="col-4 justify-content-md-center col-lg-6 col-md-6 checkout__form" style="background-color: lightgrey">
+<h4>Détail de la Livraison</h4>
+    <p>Nom et Prenom : {{ commande.nom ~" "~commande.prenom }}</p>
+    <p>Numero de téléphone : {{ commande.numeroTelephone }}</p>
+    <p>Adresse de livraison :{{ commande.adresse }}</p>
+    <p>Description d'adresse :{{ commande.descriptionAdresse }}</p>
+    <h3>Statut de Livraison: </h3><p>En Cours</p>
+    <a class="btn btn-info" href="{{ path('pdflivraison') }}">Télecharger les détails de la livraison</a>
+    <p>Vous pouvez modifier votre livraison sous 24h en envoyant un mail ou en nous appelant</p>
+</div>
+    {{  form_start(form) }}
+    {{ form_row(form.paiement,{'attr': {'class': 'site-btn' } }) }}
+
+    {{  form_end(form) }}
+    {# <form method="post" action="{{ path('livraison') }}">
+        <button type="submit" class="site-btn">Payez</button>
+    </form> #}
+</center>
+    <script src="{{ asset('https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch') }}"></script>
+    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
+    <script type="text/javascript">
+        // Create an instance of the Stripe object with your publishable API key
+        var stripe = Stripe("pk_test_51IZJ1EKIRZuutEl1j2Y7VROFvkjxwMPMNraWhQ6P1jroDEZRQR2FZaGi84cNDJOYs0VDETvsMKDXOIi306puEO0k00kLSjdILQ");
+        var checkoutButton = document.getElementById("livraison_paiement");
+        checkoutButton.addEventListener("click", function () {
+            fetch("{{ path('livraison') }}", {
+                method: "POST",
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                })
+                .then(function (result) {
+                    // If redirectToCheckout fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using error.message.
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+        });
+    </script>
+
+{% endblock %}
+
