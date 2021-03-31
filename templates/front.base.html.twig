@@ -67,6 +67,7 @@
     </div>
 
     <header class="header">
+
         <div class="header__top">
             <div class="container">
                 <div class="row">
@@ -82,6 +83,12 @@
                             <div class="header__top__right__auth">
                                 <a href="{{ path ('app_login') }}"><i class="fa fa-user"></i> Se Connecter</a>
                                 <a href="{{ path ('app_register') }}"><i class="fa fa-user"></i> S'inscrire</a>
+
+                                <a href="{{ path ('app_logout') }}"><i class="fa fa-user"></i> Déconnexion</a>
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -121,6 +128,7 @@
             </div>
         </div>
     </header>
+
     <section class="hero">
         <div class="container">
             <div class="row">
@@ -131,9 +139,9 @@
                             <span>Tous les produits</span>
                         </div>
                         <ul>
-                            <li><a href="#">Les huiles</a></li>
-                            <li><a href="#">Les savons</a></li>
-                            <li><a href="#">Les crèmes</a></li>
+                            <li><a href="#"></a></li>
+                            <li><a href="#"></a></li>
+                            <li><a href="#"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -151,7 +159,10 @@
         </div>
     </section>
 
-    {% block body %}{% endblock %}
+    {% block body %}
+
+
+    {% endblock %}
 
 
     <footer class="footer spad">
@@ -175,8 +186,8 @@
                         <h6>Rejoignez-Nous à la newsletter</h6>
                         <p>Entrez ton adresse e-mail pour recevoir tous nos nouveaux produits</p>
                         <form action="#">
-                            <input type="text" placeholder="Entrez votre adresse e-mail">
-                            <button type="submit" class="site-btn">S'inscrire</button>
+                            <input type="text" placeholder="Votre adresse e-mail">
+                            <button type="submit" class="site-btn">Contactez-nous</button>
                         </form>
                         <div class="footer__widget__social">
                             <a href="#"><i class="fa fa-facebook"></i></a>

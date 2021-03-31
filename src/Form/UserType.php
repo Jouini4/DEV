@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,12 +19,28 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
+            ->add('email', EmailType::class,[
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci d\'entrer un e-mail',
+                    ]),
+                ],
+                'required' => true,
+                'attr' => ['class' =>'form-control'],
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN'
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'label' => 'Rôles'
+            ])
             ->add('userphone')
             ->add('useraddress')
             ->add('usercin')
             ->add('username')
-            ->add('roles' )
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -40,6 +57,7 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('forgotten password', SubmitType::class)
         ;
         ;
     }

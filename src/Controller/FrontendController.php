@@ -46,6 +46,7 @@ class FrontendController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/connexion", name="connexion")
      */

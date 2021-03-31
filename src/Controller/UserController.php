@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserMType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /*/**
  * @Route("/user")
@@ -26,6 +28,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
@@ -55,8 +58,9 @@ class UserController extends AbstractController
      * @param User $user
      * @return Response
      */
-    public function show(User $user): Response
-    {
+    public function show(User $user , $id): Response
+    {   $em=$this->getDoctrine()->getManager();
+        $user=$em->getRepository(User::class)->find($id);
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -76,6 +80,8 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+
+            $this->addFlash('message', 'Utilisateur modifié avec succès');
             return $this->redirectToRoute('backutilisateur');
         }
 
@@ -86,6 +92,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user
@@ -101,4 +108,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('backutilisateur');
     }
+
 }

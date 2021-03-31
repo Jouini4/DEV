@@ -2404,7 +2404,7 @@ textarea.form-control {
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: #ffffff;
   text-align: center;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -2447,6 +2447,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
+  margin-top: 15px;
 }
 .btn-primary:hover {
   color: #fff;
@@ -2905,6 +2906,7 @@ fieldset:disabled a.btn {
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.3rem;
+  margin-top:15px;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -9778,7 +9780,7 @@ button.bg-dark:focus {
 }
 
 .font-weight-normal {
-  font-weight: 400 !important;
+  font-size: 25px
 }
 
 .font-weight-bold {

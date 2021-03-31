@@ -11,6 +11,14 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML4 File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
@@ -116,6 +124,9 @@
       <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/google-mailer" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
     </include_path>
   </component>
   <component name="ProjectId" id="1pXmVuNFRG9EmPFKzp2l3Xfm4Jg" />
@@ -124,9 +135,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML4 File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Controller" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DEV-master/DEV-master/Desktop/Integration" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -153,7 +166,26 @@
       <option name="presentableId" value="Default" />
       <updated>1615337836389</updated>
       <workItem from="1615337837717" duration="610000" />
-      <workItem from="1615360257983" duration="44467000" />
+      <workItem from="1615360257983" duration="49536000" />
+      <workItem from="1615973156774" duration="26353000" />
+      <workItem from="1616061251352" duration="817000" />
+      <workItem from="1616100689007" duration="1926000" />
+      <workItem from="1616186881589" duration="6076000" />
+      <workItem from="1616437755189" duration="8406000" />
+      <workItem from="1616490003541" duration="7065000" />
+      <workItem from="1616504547160" duration="4557000" />
+      <workItem from="1616511019764" duration="3588000" />
+      <workItem from="1616514670836" duration="57000" />
+      <workItem from="1616686656096" duration="49000" />
+      <workItem from="1616934135844" duration="11040000" />
+      <workItem from="1616956410626" duration="2489000" />
+      <workItem from="1616962613054" duration="39000" />
+      <workItem from="1616964232973" duration="44000" />
+      <workItem from="1616967713163" duration="670000" />
+      <workItem from="1616968404425" duration="19000" />
+      <workItem from="1616970301576" duration="61000" />
+      <workItem from="1617005940560" duration="24113000" />
+      <workItem from="1617135147296" duration="1590000" />
     </task>
     <servers />
   </component>
@@ -169,14 +201,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="574" y="94" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1615371018673" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615386838728">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1617018253065">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1615386838728" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1615361926172">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1617018253065" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1617136146408">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1615361926172" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1617136146408" />
     <state x="530" y="220" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1615385874233">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -185,5 +217,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="486" y="183" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1615394056476" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1615990673263">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1615990673263" />
   </component>
 </project>

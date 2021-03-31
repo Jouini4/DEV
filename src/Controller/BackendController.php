@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
-class BackendController extends AbstractController
+class BackendController extends Controller
 {
     /**
      * @Route("/back", name="backindex")
@@ -43,11 +46,23 @@ class BackendController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function utilisateur(UserRepository $userRepository): Response
+    public function utilisateur(UserRepository $userRepository,Request $request,PaginatorInterface $paginator): Response
     {
+        $alluser=$this->getDoctrine()->getRepository(User::class)->findAll();
+        // Paginate the results of the query
+        $listuser= $paginator->paginate(
+        // Doctrine Query, not results
+            $alluser,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
+        //dd($listClassroom);
         return $this->render('backend/utilisateur.html.twig', [
-            'users' => $userRepository->findAll(),
+            'controller_name' => 'BackendController','users'=>$listuser
         ]);
+
     }
     /**
      * @Route("/back/admin", name="backadmin")

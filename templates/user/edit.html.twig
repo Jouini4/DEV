@@ -1,12 +1,11 @@
 {% extends 'back.base.html.twig' %}
 
-
 {% block body %}
     <h1>Edit User</h1>
 
+
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
 
-    <a href="{{ path('backutilisateur') }}">back to list</a>
 
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

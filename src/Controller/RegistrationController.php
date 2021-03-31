@@ -37,6 +37,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            //on génére un token et on l'enregistre
             $user->setActivationToken(md5(uniqid()));
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -46,7 +47,7 @@ class RegistrationController extends AbstractController
             // On crée le message
             $message = (new \Swift_Message('Nouveau compte'))
                 // On attribue l'expéditeur
-                ->setFrom('votre@adresse.fr')
+                ->setFrom('cyrine.khezami@esprit.tn')
                 // On attribue le destinataire
                 ->setTo($user->getEmail())
                 // On crée le texte avec la vue
@@ -61,16 +62,17 @@ class RegistrationController extends AbstractController
             //return $this->redirectToRoute('frontindex');
 
             return $guardHandler->authenticateUserAndHandleSuccess(
-            $user,
-            $request,
-            $authenticator,
-            'main' // firewall name in security.yaml
+                $user,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml
             );
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+
     }
 
     /**
@@ -78,27 +80,27 @@ class RegistrationController extends AbstractController
      * @param $token
      * @param UserRepository $userRepo
      */
-        public function activation($token,UserRepository $userRepo){
-          $user= $userRepo->findOneBy(['activation_token'=> $token]);
-          //si aucun utilisateur n'existe avec ce token
-            if(!$user){
-                // On renvoie une erreur 404
-                //throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
-            }
-
-            // On supprime le token
-            $user->setActivationToken(null);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // On génère un message
-            $this->addFlash('message', 'Vous avez bien activé votre compte');
-
-            // On retourne à l'accueil
-            return $this->redirectToRoute('user_index');
+    public function activation($token,UserRepository $userRepo){
+        $user= $userRepo->findOneBy(['activation_token'=> $token]);
+        //si aucun utilisateur n'existe avec ce token
+        if(!$user){
+            // On renvoie une erreur 404
+            //throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
         }
 
+        // On supprime le token
+        $user->setActivationToken(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // On génère un message
+        $this->addFlash('message', 'Vous avez bien activé votre compte');
+
+        // On retourne à l'accueil
+        return $this->redirectToRoute('user_index');
+    }
 
 
+    
 }

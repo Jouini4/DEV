@@ -51,7 +51,7 @@ h6 {
 }
 
 h1 {
-	font-size: 70px;
+	font-size: 40px;
 }
 
 h2 {
@@ -84,7 +84,7 @@ p {
 }
 
 img {
-	max-width: 100%;
+	max-width: 50%;
 }
 
 input:focus,
@@ -805,6 +805,7 @@ ol {
 	left: auto;
 	right: -35px;
 }
+
 
 /*---------------------
   Featured
