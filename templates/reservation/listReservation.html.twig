@@ -9,10 +9,10 @@
                                 <thead>
                                 <tr>
                                     <th>Event</th>
+                                    <th>nom utilisateur</th>
                                     <th>Nombre de place</th>
                                     <th>Prix Total</th>
                                     <th>Image de l'evenement reservé</th>
-                                    <th>State</th>
 
                                 </tr>
                                 </thead>
@@ -20,15 +20,11 @@
                                 {% for l in reservations %}
                                     <tr>
                                         <td>{{ l.id_Event.nom_event }}</td>
+                                        <td>{{ l.user.username }}</td>
                                         <td> {{ l.nbrplace }} </td>
                                         <td>{{ l.id_Event.prix_event * l.nbrplace  }} DT </td>
                                         <td><img  src="{{ asset('uploads/' ~ l.id_Event.image) }} " width="75" height="50"></td>
 
-                                        {% if l.approuve ==1 %}
-                                            <td style="background-color: #44f86e">Approuvée</td>
-                                        {% elseif l.approuve==0 %}
-                                            <td style="background-color:red">En attente</td>
-                                        {% endif %}
 
                                     </tr>
                                     <script>

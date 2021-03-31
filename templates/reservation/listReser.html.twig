@@ -21,7 +21,7 @@
         {% for i in reservations %}
             <tr>
                 <td>{{ i.id_Event.nom_event }}</td>
-                <td>{{ i.user.getUserphone() }}</td>
+                <td>{{ i.user.username }}</td>
 
                 <td> {{ i.nbrplace }} </td>
                 <td>{{ i.id_Event.prix_event * i.nbrplace  }} DT </td>

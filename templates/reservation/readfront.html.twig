@@ -31,11 +31,7 @@
                     <td> {{ i.nbrplace }} </td>
                     <td>{{ i.id_Event.prix_event * i.nbrplace  }} DT </td>
                     <td><img  src="{{ asset('uploads/' ~ i.id_Event.image) }} " width="75" height="50"></td>
-                    {% if l.approuve ==1 %}
-                        <td style="background-color: #44f86e">Approuvée</td>
-                    {% elseif l.approuve==0 %}
-                        <td style="background-color:red">En attente</td>
-                    {% endif %}
+
                 </tr>
 
             {% endfor %}

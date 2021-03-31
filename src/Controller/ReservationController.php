@@ -71,6 +71,7 @@ class ReservationController extends Controller
      */
     public function listReservationByEvent($id,Request $request,PaginatorInterface $paginator){
         $event=$this->getDoctrine()->getRepository(Evenement::class)->find($id);
+
         $AlllistReservation=$this->getDoctrine()->getRepository(Reservation::class)->findBy(array('id_Event'=>$event));
         // Paginate the results of the query
         $listReservation= $paginator->paginate(
@@ -135,11 +136,12 @@ class ReservationController extends Controller
     }
     /**
      * @Route("/readreservation", name="readreservation")
-     * *@Security("is_granted('ROLE_USER')")
+     *@Security("is_granted('ROLE_USER')")
      */
     public function read()
     {
-        $listReservation=$this->getDoctrine()->getRepository(Reservation::class)->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $listReservation=$this->getDoctrine()->getRepository(Reservation::class)->findBy(array('user'=>$user));
         //dd($listClassroom);
         return $this->render('reservation/readfront.html.twig', [
             'controller_name' => 'ReservationController','reservation'=>$listReservation,
