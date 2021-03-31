@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Commande;
 use App\Entity\User;
 use App\Entity\Evenement;
 use App\Entity\Reservation;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Snappy\Pdf;
 use ProxyManager\Exception\ExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -114,7 +117,7 @@ class ReservationController extends Controller
      * @Route("/approuverReservation/{id}",name="approuverReservation")
      */
     public function approuverReservation($id,\Swift_Mailer $mailer)
-    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+    {
         $em= $this->getDoctrine()->getManager();
         $reservation=$em->getRepository( Reservation::class)->find($id);
         $reservation->setApprouve(1);
@@ -149,6 +152,31 @@ class ReservationController extends Controller
         ]);
     }
 
+    /**
+     * @Route ("/pdfreservation/{id}", name="pdfreservation")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function pdfreservation(Pdf $knpSnappyPdf,$id)
+    {
+
+        $em=$this->getDoctrine()->getManager();
+        /*$user = $em->getRepository(user::class)->find(1);*/
+        /*$reservation = $em->getRepository(Reservation::class)->findBy([
+            'user'=>$user->getId()
+        ]);*/
+        $reservation=$this->getDoctrine()->getRepository(Reservation::class)->find($id);
+        $user = $em->getRepository(user::class)->find($reservation->getUser());
+
+        $html = $this->renderView('reservation/PdfReservation.html.twig', array(
+            'user'=>$user,
+            'reservation'=>$reservation,
+        ));
+
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'Reservation.pdf'
+        );
+    }
 
 
 }

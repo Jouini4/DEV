@@ -21,7 +21,7 @@
                 <th>Nombre de place</th>
                 <th>Prix Total</th>
                 <th>Image de l'evenement reservé</th>
-                <th>State</th>
+                <th>PDF</th>
             </tr>
             <tbody>
 
@@ -31,6 +31,7 @@
                     <td> {{ i.nbrplace }} </td>
                     <td>{{ i.id_Event.prix_event * i.nbrplace  }} DT </td>
                     <td><img  src="{{ asset('uploads/' ~ i.id_Event.image) }} " width="75" height="50"></td>
+                    <td>  <a href="{{ path("pdfreservation",{'id':i.id})}}" ><button class="btn btn-warning">PDF</button></a></td>
 
                 </tr>
 
@@ -40,5 +41,6 @@
         </table>
 
         <a href="{{ path("readfront") }}" ><button class="btn btn-warning">back to list évènements</button></a>
+
     </div>
 {% endblock %}

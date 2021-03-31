@@ -165,6 +165,9 @@ class EvenementController extends Controller
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('images_directory'),$fileName);
             $evenement->setImage($fileName);
+            $evenement->setAdresse($request->get('adresse'));
+            $evenement->setLongitude($request->get('longitude'));
+            $evenement->setLatitude( $request->get('latitude'));
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('read');

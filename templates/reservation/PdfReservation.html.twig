@@ -1,0 +1,16 @@
+<html>
+
+<body>
+<center>
+
+    <h1 style="color:#f11212;">Detail de la Reservation</h1>
+    <h1 style="color:#125cf1;">Nom  : {{ user.username }}</h1>
+    <h2 style="color:#25d72e;">Numero de telephone : {{ user.userphone }}</h2>
+    <h3 style="color:#125cf1;">Adresse de livraison : {{ user.useraddress }}</h3>
+    <h3 style="color:#125cf1;">Nombre de place(s) Reservee(s) : {{ reservation.nbrplace }}</h3>
+    <h4 style="color:#125cf1;"> Prix Totale De(s) ticket(s) : {{ reservation.id_Event.prix_event * reservation.nbrplace  }} DT</h4>
+
+
+</center>
+</body>
+</html>
