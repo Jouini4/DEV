@@ -55,6 +55,15 @@ public class user {
         this.usercin = usercin;
     }
 
+    public user(String email, String username, int userphone, String useradress) {
+        this.email = email;
+        this.username = username;
+        this.userphone = userphone;
+        this.useradress = useradress;
+    }
+    
+    
+
     public user() {
     }
 

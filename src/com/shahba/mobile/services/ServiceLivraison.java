@@ -5,13 +5,16 @@
  */
 package com.shahba.mobile.services;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
 import com.shahba.mobile.entity.commande;
+import com.shahba.mobile.entity.livraison;
 import com.shahba.mobile.utils.Statics;
 import java.io.IOException;
 import java.util.Map;
@@ -38,6 +41,28 @@ public class ServiceLivraison {
         }
         return instance;
     }
+     
+     public boolean ajouterLivraison(livraison l)
+     {
+        String url = Statics.BASE_URL+"/AjouterlivraisonJson";
+        req.removeAllArguments();
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog d = prog.showInfiniteBlocking();
+        req.setDisposeOnCompletion(d);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("idc",String.valueOf(l.getCommande().getRef()));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               resultOk = req.getResponseCode() == 200;
+               req.removeResponseListener(this);
+            }
+            
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOk;
+     }
      
     public commande getLastCommande(){
        
@@ -67,12 +92,13 @@ public class ServiceLivraison {
        JSONParser jp = new JSONParser();
        Map<String, Object> commandeJson = jp.parseJSON(new CharArrayReader(jsonText.toCharArray()));
        
+       int idc = (int)Float.parseFloat(commandeJson.get("REF").toString());
        String nom = commandeJson.get("nom").toString();
        String prenom = commandeJson.get("prenom").toString();
        String adresse = commandeJson.get("adresse").toString();
        String descriptionAdresse = commandeJson.get("descriptionAdresse").toString();
        int numeroTelephone = (int)Float.parseFloat(commandeJson.get("numeroTelephone").toString());
-           c = new commande(adresse,descriptionAdresse,numeroTelephone,nom,prenom);
+           c = new commande(idc,adresse,descriptionAdresse,numeroTelephone,nom,prenom);
    return c ;
    }
     

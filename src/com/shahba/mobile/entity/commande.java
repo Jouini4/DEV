@@ -24,6 +24,18 @@ public class commande {
     private String nom;
     private String prenom;
 
+    public commande(int ref, String adresse, String description_adresse, int tel, String nom, String prenom) {
+        this.ref = ref;
+        this.adresse = adresse;
+        this.description_adresse = description_adresse;
+        this.tel = tel;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
+
+
+    
     public String getNom() {
         return nom;
     }
